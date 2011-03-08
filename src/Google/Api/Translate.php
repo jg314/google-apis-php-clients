@@ -254,7 +254,7 @@ class Translate
      */
     public function setSourceLanguage($sourceLanguage = null)
     {
-        if ($sourceLanguage !== null && !(is_string($sourceLanguage) && preg_match(static::getAvailableLanguageCodesRegex(), $sourceLanguage)))
+        if ($sourceLanguage !== null && !(is_string($sourceLanguage) && array_key_exists($sourceLanguage, static::getAvailableLanguages())))
         {
             throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code');
         }
@@ -286,7 +286,7 @@ class Translate
      */
     public function setTargetLanguage($targetLanguage)
     {
-        if (!(is_string($targetLanguage) && preg_match(static::getAvailableLanguageCodesRegex(), $targetLanguage)))
+        if (!(is_string($targetLanguage) && array_key_exists($targetLanguage, static::getAvailableLanguages())))
         {
             throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code');
         }
@@ -358,17 +358,5 @@ class Translate
             'cy' => 'Welsh',
             'yi' => 'Yiddish'
         );
-    }
-
-    /**
-     * Gets the regex pattern to validate source and target languages against.
-     *
-     * @return string
-     *
-     * @see static::getAvailableLanguages()
-     */
-    protected function getAvailableLanguageCodesRegex()
-    {
-        return sprintf('/^(%s)$/', implode('|', array_keys(static::getAvailableLanguages())));
     }
 }

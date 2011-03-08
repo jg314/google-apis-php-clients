@@ -26,13 +26,13 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $client = new Translate();
-        $this->assertEquals(array(), $client->getQueries());
+        $this->assertEquals(array(), $client->getQuery());
 
         $client = new Translate('foo');
-        $this->assertEquals(array('foo'), $client->getQueries());
+        $this->assertEquals(array('foo'), $client->getQuery());
 
         $client = new Translate(array('foo', 'bar'));
-        $this->assertEquals(array('foo', 'bar'), $client->getQueries());
+        $this->assertEquals(array('foo', 'bar'), $client->getQuery());
     }
 
     public function dataProviderSettingApiKey()
@@ -83,32 +83,38 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $this->clientStub->getFormat());
     }
 
-    public function dataProviderSettingQueries()
+    public function dataProviderSettingQuery()
     {
         return array(
+            array(true, true),
+            array(true, false),
+            array(true, null),
+            array(true, ''),
+            array(true, '   '),
             array(true, array()),
             array(true, array('')),
             array(true, array('    ')),
             array(true, array('foo', '')),
             array(true, array('foo', '', 'bar')),
+            array(false, 'foo', array('foo')),
             array(false, array('foo')),
             array(false, array('foo', 'bar')),
         );
     }
 
     /**
-     * @dataProvider dataProviderSettingQueries
+     * @dataProvider dataProviderSettingQuery
      */
-    public function testSettingQueries($expectError, $data)
+    public function testSettingQuery($expectError, $data, $expectedData = null)
     {
         $this->setExpectedException($expectError ? 'InvalidArgumentException' : null);
-        $this->assertType('\Google\Api\Translate', $this->clientStub->setQueries($data));
-        $this->assertEquals($data, $this->clientStub->getQueries());
+        $this->assertType('\Google\Api\Translate', $this->clientStub->setQuery($data));
+        $this->assertEquals($expectedData !== null ? $expectedData : $data, $this->clientStub->getQuery());
     }
 
-    public function testAddingQueries()
+    public function testAddingQuery()
     {
-        $this->assertEquals(array(), $this->clientStub->getQueries());
+        $this->assertEquals(array(), $this->clientStub->getQuery());
 
         try
         {
@@ -118,10 +124,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         catch (\InvalidArgumentException $e) {}
 
         $this->assertType('\Google\Api\Translate', $this->clientStub->addQuery('foo'));
-        $this->assertEquals(array('foo'), $this->clientStub->getQueries());
+        $this->assertEquals(array('foo'), $this->clientStub->getQuery());
 
         $this->assertType('\Google\Api\Translate', $this->clientStub->addQuery('bar'));
-        $this->assertEquals(array('foo', 'bar'), $this->clientStub->getQueries());
+        $this->assertEquals(array('foo', 'bar'), $this->clientStub->getQuery());
     }
 
     public function dataProviderSettingSourceLanguage()

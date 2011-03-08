@@ -41,7 +41,7 @@ class Translate
     /**
      * @var array
      */
-    protected $queries = array();
+    protected $query = array();
 
     /**
      * @var string
@@ -148,9 +148,9 @@ class Translate
      *
      * @return array
      */
-    public function getQueries()
+    public function getQuery()
     {
-        return $this->queries;
+        return $this->query;
     }
 
     /**
@@ -169,8 +169,24 @@ class Translate
             throw new \InvalidArgumentException('Invalid query. Please provide a non-empty string.');
         }
 
-        array_push($this->queries, $query);
+        array_push($this->query, $query);
         return $this;
+    }
+
+    /**
+     * Sets the string(s) to be translated.
+     * 
+     * @param string|array $query A single string or an array of strings to translate.
+     *
+     * @return Translate
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @see setQueries()
+     */
+    public function setQuery($query)
+    {
+        return $this->setQueries(is_array($query) ? $query : array($query));
     }
 
     /**
@@ -197,7 +213,7 @@ class Translate
             }
         }
 
-        $this->queries = $queries;
+        $this->query = $queries;
         return $this;
     }
 

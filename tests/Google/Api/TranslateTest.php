@@ -177,4 +177,43 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->assertType('\Google\Api\Translate', $this->clientStub->setTargetLanguage($data));
         $this->assertEquals($data, $this->clientStub->getTargetLanguage());
     }
+
+    public function dataProviderGetApiRequestUrl()
+    {
+        return array(
+            array(
+                '?key=key&q=string&target=en',
+                'key', 'string', 'en'
+            ),
+            array(
+                '?key=key&q=string&q=string&target=en',
+                'key', array('string', 'string'), 'en'
+            ),
+            array(
+                '?format=html&key=key&q=string&source=de&target=en',
+                'key', 'string', 'en', 'html', 'de'
+            ),
+            array(
+                '?format=html&key=key&q=string1&q=string2&source=de&target=en',
+                'key', array('string1', 'string2'), 'en', 'html', 'de'
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider dataProviderGetApiRequestUrl
+     */
+    public function testGetApiRequestUrl($expectedResult, $apiKey, $sourceText, $targetLanguage, $format = null, $sourceLanguage = null)
+    {
+        $this->clientStub->setApiKey($apiKey);
+        $this->clientStub->setFormat($format);
+        $this->clientStub->setSourceLanguage($sourceLanguage);
+        $this->clientStub->setSourceText($sourceText);
+        $this->clientStub->setTargetLanguage($targetLanguage);
+
+        $this->assertEquals(
+            Translate::API_URL . $expectedResult,
+            $this->clientStub->getApiRequestUrl()
+        );
+    }
 }

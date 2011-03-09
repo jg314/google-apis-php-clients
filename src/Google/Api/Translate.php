@@ -352,6 +352,11 @@ class Translate
         );
     }
 
+    public function executeRequest()
+    {
+        $this->validateParameters();
+    }
+
     /**
      * Validates that all parameters are valid for for the API request.
      * 
@@ -421,7 +426,7 @@ class Translate
 
                 foreach($value as $subValue)
                 {
-                    array_push($subParts, $this->getApiRequestUrlPart($parameter, $subValue));
+                    array_push($subParts, $this->generateApiRequestUrlPart($parameter, $subValue));
                 }
 
                 return implode('&', $subParts);
@@ -432,10 +437,12 @@ class Translate
                 return sprintf('%s=%s', $parameter, urlencode($value));
                 break;
 
+            // @codeCoverageIgnoreStart
             default:
                 throw new \LogicException('Unexpected parameter value data type.');
                 break;
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**

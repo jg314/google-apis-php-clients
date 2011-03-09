@@ -15,13 +15,16 @@ namespace Google\Api;
  * Translate is the main client class for the Google Translate API
  *
  * @author Stephen Melrose <me@stephenmelrose.co.uk>
+ *
+ * @link http://code.google.com/apis/language/translate/v2/using_rest.html
  */
 class Translate
 {
+    const API_URL = 'https://www.googleapis.com/language/translate/v2';
+    
     const PARAMETER_API_KEY = 'key';
     const PARAMETER_FORMAT = 'format';
-    const PARAMETER_PRETTYPRINT = 'prettyprint';
-    const PARAMETER_QUERY = 'q';
+    const PARAMETER_SOURCE_TEXT = 'q';
     const PARAMETER_SOURCE_LANGUAGE = 'source';
     const PARAMETER_TARGET_LANGUAGE = 'target';
 
@@ -41,7 +44,7 @@ class Translate
     /**
      * @var array
      */
-    protected $query = array();
+    protected $sourceText = array();
 
     /**
      * @var string
@@ -56,13 +59,13 @@ class Translate
     /**
      * Constructs a new Google Translate API client.
      * 
-     * @param array|string $query A single string or an array of strings to translate.
+     * @param array|string $sourceText A single string or an array of strings to translate.
      */
-    public function __construct($query = null)
+    public function __construct($sourceText = null)
     {
-        if($query !== null)
+        if($sourceText !== null)
         {
-            $this->setQueries(is_array($query) ? $query : array($query));
+            $this->setSourceText($sourceText);
         }
     }
 
@@ -142,91 +145,80 @@ class Translate
         $this->format = $format;
         return $this;
     }
-
+    
     /**
      * Gets the strings to be translated.
      *
      * @return array
      */
-    public function getQuery()
+    public function getSourceText()
     {
-        return $this->query;
+        return $this->sourceText;
+    }
+
+    /**
+     * Sets the string(s) to be translated.
+     *
+     * @param string|array $sourceText A single string or an array of strings to translate.
+     *
+     * @return Translate
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function setSourceText($sourceText)
+    {
+        if (is_string($sourceText))
+        {
+            $sourceText = array($sourceText);
+        }
+
+        if (!is_array($sourceText) || count($sourceText) == 0)
+        {
+            throw new \InvalidArgumentException('Invalid source text. Please provide either an array of or a single non-empty string.');
+        }
+
+        foreach($sourceText as $key => $singleSourceText)
+        {
+            if (!$this->validateSourceText($singleSourceText))
+            {
+                throw new \InvalidArgumentException(sprintf('Invalid source text'.(count($sourceText) != 1 ? ' at index "%s"' : null).'. Please provide a non-empty string.', $key));
+            }
+        }
+
+        $this->sourceText = $sourceText;
+        return $this;
     }
 
     /**
      * Adds a string to be translated.
      *
-     * @param string $query
+     * @param string $sourceText
      *
      * @return Translate
      *
      * @throws \InvalidArgumentException
      */
-    public function addQuery($query)
+    public function addSourceText($sourceText)
     {
-        if (!$this->validateQuery($query))
+        if (!$this->validateSourceText($sourceText))
         {
-            throw new \InvalidArgumentException('Invalid query. Please provide a non-empty string.');
+            throw new \InvalidArgumentException('Invalid source text. Please provide a non-empty string.');
         }
 
-        array_push($this->query, $query);
-        return $this;
-    }
-
-    /**
-     * Sets the string(s) to be translated.
-     * 
-     * @param string|array $query A single string or an array of strings to translate.
-     *
-     * @return Translate
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @see setQueries()
-     */
-    public function setQuery($query)
-    {
-        return $this->setQueries(is_array($query) ? $query : array($query));
-    }
-
-    /**
-     * Sets the strings to be translated.
-     * 
-     * @param array $queries
-     *
-     * @return Translate
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function setQueries(array $queries)
-    {
-        if (count($queries) == 0)
-        {
-            throw new \InvalidArgumentException('Invalid queries. Please provide a non-empty array of strings.');
-        }
-
-        foreach($queries as $key => $query)
-        {
-            if (!$this->validateQuery($query))
-            {
-                throw new \InvalidArgumentException(sprintf('Invalid query at index "%s". Please provide a non-empty string.', $key));
-            }
-        }
-
-        $this->query = $queries;
+        array_push($this->sourceText, $sourceText);
         return $this;
     }
 
     /**
      * Validates a string to be translated.
      *
-     * @param string $query
+     * @param string $sourceText
      *
      * @return boolean
      */
-    protected function validateQuery($query)
+    protected function validateSourceText($sourceText)
     {
-        return is_string($query) && strlen(trim($query)) > 0;
+        return is_string($sourceText) && strlen(trim($sourceText)) > 0;
     }
 
     /**
@@ -256,7 +248,7 @@ class Translate
     {
         if ($sourceLanguage !== null && !(is_string($sourceLanguage) && array_key_exists($sourceLanguage, static::getAvailableLanguages())))
         {
-            throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code');
+            throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code.');
         }
 
         $this->sourceLanguage = $sourceLanguage;
@@ -288,7 +280,7 @@ class Translate
     {
         if (!(is_string($targetLanguage) && array_key_exists($targetLanguage, static::getAvailableLanguages())))
         {
-            throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code');
+            throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code.');
         }
 
         $this->targetLanguage = $targetLanguage;

@@ -92,7 +92,7 @@ class Translate
      */
     public function setApiKey($apiKey)
     {
-        if (!(is_string($apiKey) && strlen(trim($apiKey)) > 0))
+        if(!(is_string($apiKey) && strlen(trim($apiKey)) > 0))
         {
             throw new \InvalidArgumentException('Invalid API key. Please provide a non-empty string.');
         }
@@ -124,9 +124,9 @@ class Translate
      */
     public function setFormat($format = null)
     {
-        if ($format !== null)
+        if($format !== null)
         {
-            if (is_bool($format))
+            if(is_bool($format))
             {
                 throw new \InvalidArgumentException('Invalid format. Please provide either "text" or "html".');
             }
@@ -167,19 +167,19 @@ class Translate
      */
     public function setSourceText($sourceText)
     {
-        if (is_string($sourceText))
+        if(is_string($sourceText))
         {
             $sourceText = array($sourceText);
         }
 
-        if (!is_array($sourceText) || count($sourceText) == 0)
+        if(!is_array($sourceText) || count($sourceText) == 0)
         {
             throw new \InvalidArgumentException('Invalid source text. Please provide either an array of or a single non-empty string.');
         }
 
         foreach($sourceText as $key => $singleSourceText)
         {
-            if (!$this->validateSourceText($singleSourceText))
+            if(!$this->validateSourceText($singleSourceText))
             {
                 throw new \InvalidArgumentException(sprintf('Invalid source text'.(count($sourceText) != 1 ? ' at index "%s"' : null).'. Please provide a non-empty string.', $key));
             }
@@ -200,7 +200,7 @@ class Translate
      */
     public function addSourceText($sourceText)
     {
-        if (!$this->validateSourceText($sourceText))
+        if(!$this->validateSourceText($sourceText))
         {
             throw new \InvalidArgumentException('Invalid source text. Please provide a non-empty string.');
         }
@@ -246,7 +246,7 @@ class Translate
      */
     public function setSourceLanguage($sourceLanguage = null)
     {
-        if ($sourceLanguage !== null && !(is_string($sourceLanguage) && array_key_exists($sourceLanguage, static::getAvailableLanguages())))
+        if($sourceLanguage !== null && !(is_string($sourceLanguage) && array_key_exists($sourceLanguage, static::getAvailableLanguages())))
         {
             throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code.');
         }
@@ -278,7 +278,7 @@ class Translate
      */
     public function setTargetLanguage($targetLanguage)
     {
-        if (!(is_string($targetLanguage) && array_key_exists($targetLanguage, static::getAvailableLanguages())))
+        if(!(is_string($targetLanguage) && array_key_exists($targetLanguage, static::getAvailableLanguages())))
         {
             throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code.');
         }
@@ -349,6 +349,108 @@ class Translate
             'vi' => 'Vietnamese',
             'cy' => 'Welsh',
             'yi' => 'Yiddish'
+        );
+    }
+
+    /**
+     * Validates that all parameters are valid for for the API request.
+     * 
+     * @return boolean
+     *
+     * @throws \LogicExcetion
+     */
+    protected function validateParameters()
+    {
+        if($this->getApiKey() === null)
+        {
+            throw new \RuntimeException('Missing required parameter "API key".');
+        }
+
+        if(count($this->getSourceText()) == 0)
+        {
+            throw new \RuntimeException('Missing required parameter "source text".');
+        }
+
+        if($this->getTargetLanguage() === null)
+        {
+            throw new \RuntimeException('Missing required parameter "target language".');
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets the URL used to make the API request.
+     *
+     * @return string
+     */
+    public function getApiRequestUrl()
+    {
+        $urlParameters = array();
+
+        foreach ($this->getApiRequestData() as $key => $value)
+        {
+            if (($parameter = $this->generateApiRequestUrlPart($key, $value)))
+            {
+                array_push($urlParameters, $parameter);
+            }
+        }
+
+        return self::API_URL . '?' . implode('&', $urlParameters);
+    }
+
+    /**
+     * Generates the specific part of the API request URL for the specified parameter and value.
+     *
+     * @param string $parameter
+     * @param mixed $value
+     * 
+     * @return string
+     */
+    protected function generateApiRequestUrlPart($parameter, $value = null)
+    {
+        switch(gettype($value))
+        {
+            case 'NULL':
+                return null;
+                break;
+
+            case 'array':
+
+                $subParts = array();
+
+                foreach($value as $subValue)
+                {
+                    array_push($subParts, $this->getApiRequestUrlPart($parameter, $subValue));
+                }
+
+                return implode('&', $subParts);
+
+                break;
+
+            case 'string':
+                return sprintf('%s=%s', $parameter, urlencode($value));
+                break;
+
+            default:
+                throw new \LogicException('Unexpected parameter value data type.');
+                break;
+        }
+    }
+
+    /**
+     * Gets the API request data.
+     * 
+     * @return array
+     */
+    protected function getApiRequestData()
+    {
+        return array(
+            self::PARAMETER_FORMAT          => $this->getFormat(),
+            self::PARAMETER_API_KEY         => $this->getApiKey(),
+            self::PARAMETER_SOURCE_TEXT     => $this->getSourceText(),
+            self::PARAMETER_SOURCE_LANGUAGE => $this->getSourceLanguage(),
+            self::PARAMETER_TARGET_LANGUAGE => $this->getTargetLanguage()
         );
     }
 }

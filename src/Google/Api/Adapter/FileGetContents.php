@@ -11,13 +11,15 @@
 
 namespace Google\Api\Adapter;
 
+use Google\Api\Adapter;
+
 /**
  * FileGetContents executes an API request using the file_get_contents() 
  * PHP method and returns the response.
  *
  * @author Stephen Melrose <me@stephenmelrose.co.uk>
  */
-class FileGetContents implements AdapterInterface
+class FileGetContents implements Adapter
 {
     /**
      * {@inheritdoc}

@@ -11,12 +11,14 @@
 
 namespace Google\Api\Adapter;
 
+use Google\Api\Adapter;
+
 /**
  * Curl executes an API request using cURL and returns the response.
  *
  * @author Stephen Melrose <me@stephenmelrose.co.uk>
  */
-class Curl implements AdapterInterface
+class Curl implements Adapter
 {
     /**
      * {@inheritdoc}

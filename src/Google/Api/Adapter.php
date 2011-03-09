@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Google\Api\Adapter;
+namespace Google\Api;
 
 /**
- * AdapterInterface executes an API request and returns the response.
+ * Adapter executes an API request and returns the response.
  *
  * @author Stephen Melrose <me@stephenmelrose.co.uk>
  */
-interface AdapterInterface
+interface Adapter
 {
     /**
      * Executes the API request and returns the response.

@@ -12,7 +12,9 @@
 namespace Google\Api;
 
 use Google\Api\Adapter\Curl;
-use Google\Api\Parser\Translate as Parser;
+
+use Google\Api\Response\Parser as Parser;
+use Google\Api\Data\Parser\Translate as DataParser;
 
 /**
  * Translate is the main client class for the Google Translate API.
@@ -400,7 +402,7 @@ class Translate
     {
         $this->validateParameters();
 
-        $parser = new Parser();
+        $parser = new Parser(new DataParser());
         return $parser->parse($this->executeApiRequest());
     }
 

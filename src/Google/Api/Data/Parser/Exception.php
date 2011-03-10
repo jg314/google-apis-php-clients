@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Google\Api\Parser;
+namespace Google\Api\Data\Parser;
 
 /**
- * Exception class used by all parsers.
+ * Exception class used by all data parsers.
  *
  * @author Stephen Melrose <me@stephenmelrose.co.uk>
  */

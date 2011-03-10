@@ -29,7 +29,7 @@ class FileGetContents implements Adapter
         $response = @file_get_contents($url);
         if (!$response)
         {
-            throw new \RuntimeException('API request failed. file_get_contents() returned FALSE.');
+            throw new Exception('API request failed. file_get_contents() returned FALSE.');
         }
 
         return $response;

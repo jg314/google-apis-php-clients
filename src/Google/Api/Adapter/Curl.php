@@ -28,7 +28,7 @@ class Curl implements Adapter
         if (!function_exists('curl_init'))
         {
             // @codeCoverageIgnoreStart
-            throw new \RuntimeException('cURL module not installed.');
+            throw new Exception('cURL module not installed.');
             // @codeCoverageIgnoreEnd
         }
 
@@ -36,7 +36,7 @@ class Curl implements Adapter
         if (!$handle)
         {
             // @codeCoverageIgnoreStart
-            throw new \RuntimeException('Unable to create cURL session.');
+            throw new Exception('Unable to create cURL session.');
             // @codeCoverageIgnoreEnd
         }
 
@@ -47,7 +47,7 @@ class Curl implements Adapter
         $response = @curl_exec($handle);
         if (!$response)
         {
-            throw new \RuntimeException('API request failed. curl_exec() returned FALSE.');
+            throw new Exception('API request failed. curl_exec() returned FALSE.');
         }
 
         return $response;

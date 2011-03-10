@@ -519,6 +519,8 @@ class Translate
      * Executes the actual API request and returns the raw response.
      * 
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     protected function executeApiRequest()
     {

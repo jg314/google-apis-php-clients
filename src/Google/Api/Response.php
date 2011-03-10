@@ -91,6 +91,6 @@ class Response
      */
     public function isSuccess()
     {
-        return $this->getError() !== null;
+        return $this->getError() === null;
     }
 }

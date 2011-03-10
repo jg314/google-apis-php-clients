@@ -21,6 +21,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->clientStub = $this->getMock('\Google\Api\Translate', array('executeApiRequest'));
+
+        $this->clientStub->expects($this->any())
+                         ->method('executeApiRequest')
+                         ->will($this->returnValue(file_get_contents(__DIR__.'/Fixtures/translate.json')));
     }
 
     public function testConstruct()
@@ -33,6 +37,15 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
         $client = new Translate(array('foo', 'bar'));
         $this->assertEquals(array('foo', 'bar'), $client->getSourceText());
+    }
+
+    public function testSettingAdapter()
+    {
+        $this->assertType('\Google\Api\Adapter\Curl', $this->clientStub->getAdapter());
+
+        $adapter = new \Google\Api\Adapter\FileGetContents();
+        $this->assertType('\Google\Api\Translate', $this->clientStub->setAdapter($adapter));
+        $this->assertTrue($adapter === $this->clientStub->getAdapter());
     }
 
     public function dataProviderSettingApiKey()
@@ -119,7 +132,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         try
         {
             $this->clientStub->addSourceText(null);
-            $this->fail('Expected InvalidArgumentException to be thrown.');
+            $this->fail('Expected \InvalidArgumentException to be thrown.');
         }
         catch (\InvalidArgumentException $e) {}
 
@@ -182,19 +195,19 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                '?key=key&q=string&target=en',
+                '?prettyprint=false&key=key&q=string&target=en',
                 'key', 'string', 'en'
             ),
             array(
-                '?key=key&q=string&q=string&target=en',
+                '?prettyprint=false&key=key&q=string&q=string&target=en',
                 'key', array('string', 'string'), 'en'
             ),
             array(
-                '?format=html&key=key&q=string&source=de&target=en',
+                '?prettyprint=false&format=html&key=key&q=string&source=de&target=en',
                 'key', 'string', 'en', 'html', 'de'
             ),
             array(
-                '?format=html&key=key&q=string1&q=string2&source=de&target=en',
+                '?prettyprint=false&format=html&key=key&q=string1&q=string2&source=de&target=en',
                 'key', array('string1', 'string2'), 'en', 'html', 'de'
             ),
         );
@@ -215,5 +228,40 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             Translate::API_URL . $expectedResult,
             $this->clientStub->getApiRequestUrl()
         );
+    }
+
+    public function testExecuteRequest()
+    {
+        try
+        {
+            $response = $this->clientStub->executeRequest();
+            $this->fail('Excepted \RuntimeException to be thrown.');
+        }
+        catch(\RuntimeException $e) {}
+
+        $this->clientStub->setApiKey('key');
+
+        try
+        {
+            $response = $this->clientStub->executeRequest();
+            $this->fail('Excepted \RuntimeException to be thrown.');
+        }
+        catch(\RuntimeException $e) {}
+
+        $this->clientStub->addSourceText('The quick brown fox jumps over the lazy dog.');
+
+        try
+        {
+            $response = $this->clientStub->executeRequest();
+            $this->fail('Excepted \RuntimeException to be thrown.');
+        }
+        catch(\RuntimeException $e) {}
+
+        $this->clientStub->setTargetLanguage('fr');
+
+        $response = $this->clientStub->executeRequest();
+        $this->assertType('\Google\Api\Response', $response);
+        $this->assertTrue($response->isSuccess());
+        $this->assertType('\Google\Api\Data\Translate', $response->getData());
     }
 }

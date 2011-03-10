@@ -15,7 +15,7 @@ use Google\Api\Response;
 use Google\Api\Response\Error;
 use Google\Api\Response\ErrorException;
 
-use Google\Api\Data\Translate as ResponseData;
+use Google\Api\Data\Translate as TranslateData;
 use Google\Api\Data\Translate\Translation;
 
 /**
@@ -81,7 +81,7 @@ class Translate
      *
      * @param \stdClass $response
      * 
-     * @return ResponseData
+     * @return TranslateData
      *
      * @throws Exception When a parse error occurs.
      */
@@ -101,7 +101,7 @@ class Translate
 
         $responseData['translations'] = $this->parseTranslations($response->data->translations);
 
-        return new ResponseData($responseData);
+        return new TranslateData($responseData);
     }
 
     /**

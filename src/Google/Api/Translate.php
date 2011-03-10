@@ -12,6 +12,7 @@
 namespace Google\Api;
 
 use Google\Api\Adapter\Curl;
+use Google\Api\Parser\Translate as Parser;
 
 /**
  * Translate is the main client class for the Google Translate API.
@@ -99,7 +100,7 @@ class Translate
      * Sets the adapter used to execute the API request.
      * 
      * @param Adapter $adapter
-     * @return \Google\Api\Translate
+     * @return Translate
      */
     public function setAdapter(Adapter $adapter)
     {
@@ -122,7 +123,7 @@ class Translate
      *
      * @param string $apiKey
      *
-     * @return \Google\Api\Translate
+     * @return Translate
      *
      * @throws \InvalidArgumentException
      *
@@ -154,7 +155,7 @@ class Translate
      * 
      * @param string $format
      * 
-     * @return \Google\Api\Translate
+     * @return Translate
      *
      * @throws \InvalidArgumentException
      *
@@ -199,7 +200,7 @@ class Translate
      *
      * @param string|array $sourceText A single string or an array of strings to translate.
      *
-     * @return \Google\Api\Translate
+     * @return Translate
      *
      * @throws \InvalidArgumentException
      */
@@ -232,7 +233,7 @@ class Translate
      *
      * @param string $sourceText
      *
-     * @return \Google\Api\Translate
+     * @return Translate
      *
      * @throws \InvalidArgumentException
      */
@@ -276,7 +277,7 @@ class Translate
      *
      * @param string $sourceLanguage
      *
-     * @return \Google\Api\Translate
+     * @return Translate
      *
      * @throws \InvalidArgumentException
      *
@@ -308,7 +309,7 @@ class Translate
      *
      * @param string $targetLanguage
      *
-     * @return \Google\Api\Translate
+     * @return Translate
      *
      * @throws \InvalidArgumentException
      *
@@ -391,13 +392,16 @@ class Translate
     }
 
     /**
-     * Executes the API request and returns a parsed response object.
+     * Executes the API request and returns a parsed and formatted Response object.
+     *
+     * @return Response
      */
     public function executeRequest()
     {
         $this->validateParameters();
 
-        //
+        $parser = new Parser();
+        return $parser->parse($this->executeApiRequest());
     }
 
     /**
@@ -438,7 +442,7 @@ class Translate
 
         foreach ($this->getApiRequestData() as $key => $value)
         {
-            if (($parameter = $this->generateApiRequestUrlPart($key, $value)))
+            if(($parameter = $this->generateApiRequestUrlPart($key, $value)))
             {
                 array_push($urlParameters, $parameter);
             }
@@ -521,7 +525,7 @@ class Translate
         $requestUrl = $this->getApiRequestUrl();
         $cacheKey = md5($requestUrl);
 
-        if (isset(static::$apiRequestCache[$cacheKey]))
+        if(isset(static::$apiRequestCache[$cacheKey]))
         {
             return static::$apiRequestCache[$cacheKey];
         }

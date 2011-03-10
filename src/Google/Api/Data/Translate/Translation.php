@@ -37,7 +37,7 @@ class Translation extends AbstractData
      */
     public function getTranslatedText()
     {
-        return $this->getTranslatedText();
+        return $this->translatedText;
     }
 
     /**

@@ -11,8 +11,10 @@
 
 namespace Google\Api;
 
+use Google\Api\Adapter\Curl;
+
 /**
- * Translate is the main client class for the Google Translate API
+ * Translate is the main client class for the Google Translate API.
  *
  * @author Stephen Melrose <me@stephenmelrose.co.uk>
  *
@@ -24,12 +26,23 @@ class Translate
     
     const PARAMETER_API_KEY = 'key';
     const PARAMETER_FORMAT = 'format';
+    const PARAMETER_PRETTYPRINT = 'prettyprint';
     const PARAMETER_SOURCE_TEXT = 'q';
     const PARAMETER_SOURCE_LANGUAGE = 'source';
     const PARAMETER_TARGET_LANGUAGE = 'target';
 
     const FORMAT_HTML = 'html';
     const FORMAT_TEXT = 'text';
+
+    /**
+     * @var array
+     */
+    protected static $apiRequestCache = array();
+
+    /**
+     * @var Adapter
+     */
+    protected $adapter;
 
     /**
      * @var string
@@ -60,13 +73,38 @@ class Translate
      * Constructs a new Google Translate API client.
      * 
      * @param array|string $sourceText A single string or an array of strings to translate.
+     * @param Adapter $adapter The adapter used to make the API request.
      */
-    public function __construct($sourceText = null)
+    public function __construct($sourceText = null, Adapter $adapter = null)
     {
         if($sourceText !== null)
         {
             $this->setSourceText($sourceText);
         }
+
+        $this->setAdapter($adapter ?: new Curl());
+    }
+
+    /**
+     * Gets the adapter used to execute the API request.
+     * 
+     * @return Adapter
+     */
+    public function getAdapter()
+    {
+        return $this->adapter;
+    }
+
+    /**
+     * Sets the adapter used to execute the API request.
+     * 
+     * @param Adapter $adapter
+     * @return \Google\Api\Translate
+     */
+    public function setAdapter(Adapter $adapter)
+    {
+        $this->adapter = $adapter;
+        return $this;
     }
 
     /**
@@ -84,7 +122,7 @@ class Translate
      *
      * @param string $apiKey
      *
-     * @return Translate
+     * @return \Google\Api\Translate
      *
      * @throws \InvalidArgumentException
      *
@@ -116,7 +154,7 @@ class Translate
      * 
      * @param string $format
      * 
-     * @return Translate
+     * @return \Google\Api\Translate
      *
      * @throws \InvalidArgumentException
      *
@@ -161,7 +199,7 @@ class Translate
      *
      * @param string|array $sourceText A single string or an array of strings to translate.
      *
-     * @return Translate
+     * @return \Google\Api\Translate
      *
      * @throws \InvalidArgumentException
      */
@@ -194,7 +232,7 @@ class Translate
      *
      * @param string $sourceText
      *
-     * @return Translate
+     * @return \Google\Api\Translate
      *
      * @throws \InvalidArgumentException
      */
@@ -238,7 +276,7 @@ class Translate
      *
      * @param string $sourceLanguage
      *
-     * @return Translate
+     * @return \Google\Api\Translate
      *
      * @throws \InvalidArgumentException
      *
@@ -270,7 +308,7 @@ class Translate
      *
      * @param string $targetLanguage
      *
-     * @return Translate
+     * @return \Google\Api\Translate
      *
      * @throws \InvalidArgumentException
      *
@@ -352,9 +390,14 @@ class Translate
         );
     }
 
+    /**
+     * Executes the API request and returns a parsed response object.
+     */
     public function executeRequest()
     {
         $this->validateParameters();
+
+        //
     }
 
     /**
@@ -433,6 +476,12 @@ class Translate
 
                 break;
 
+            case 'boolean':
+                return sprintf('%s=%s', $parameter, urlencode($value ? 'true' : 'false'));
+                break;
+
+            case 'float':
+            case 'integer':
             case 'string':
                 return sprintf('%s=%s', $parameter, urlencode($value));
                 break;
@@ -453,11 +502,32 @@ class Translate
     protected function getApiRequestData()
     {
         return array(
+            self::PARAMETER_PRETTYPRINT     => false,
             self::PARAMETER_FORMAT          => $this->getFormat(),
             self::PARAMETER_API_KEY         => $this->getApiKey(),
             self::PARAMETER_SOURCE_TEXT     => $this->getSourceText(),
             self::PARAMETER_SOURCE_LANGUAGE => $this->getSourceLanguage(),
             self::PARAMETER_TARGET_LANGUAGE => $this->getTargetLanguage()
         );
+    }
+
+    /**
+     * Executes the actual API request and returns the raw response.
+     * 
+     * @return string
+     */
+    protected function executeApiRequest()
+    {
+        $requestUrl = $this->getApiRequestUrl();
+        $cacheKey = md5($requestUrl);
+
+        if (isset(static::$apiRequestCache[$cacheKey]))
+        {
+            return static::$apiRequestCache[$cacheKey];
+        }
+
+        $response = $this->getAdapter()->executeRequest($requestUrl);
+
+        return static::$apiRequestCache[$cacheKey] = $response;
     }
 }

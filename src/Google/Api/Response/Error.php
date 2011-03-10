@@ -36,19 +36,8 @@ class Error
      */
     public function __construct($code, $message)
     {
-        $this->storeErrorData($code, $message);
-    }
-
-    /**
-     * Stores the error response code and message.
-     * 
-     * @param integer $code
-     * @param string $message
-     */
-    protected function storeErrorData($code, $message)
-    {
-        $this->code = $code;
-        $this->message = $message;
+        $this->setCode($code);
+        $this->setMessage($message);
     }
 
     /**
@@ -62,6 +51,19 @@ class Error
     }
 
     /**
+     * Sets the response error code.
+     *
+     * @param integer $code
+     * 
+     * @return Error
+     */
+    protected function setCode($code)
+    {
+        $this->code = $code !== null ? (int) $code : null;
+        return $this;
+    }
+
+    /**
      * Gets the response error message.
      *
      * @return string
@@ -69,5 +71,18 @@ class Error
     public function getMessage()
     {
         return $this->message;
+    }
+
+    /**
+     * Sets the response error message.
+     *
+     * @param string $message
+     *
+     * @return Error
+     */
+    protected function setMessage($message)
+    {
+        $this->message = $message !== null ? (string) $message : null;
+        return $this;
     }
 }

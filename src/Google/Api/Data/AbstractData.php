@@ -25,15 +25,15 @@ abstract class AbstractData
      */
     public function __construct(array $data)
     {
-        $this->storeData($data);
+        $this->setData($data);
     }
 
     /**
-     * Stores the passed data in the object.
+     * Sets the passed data on the object.
      *
      * @param array $data
      */
-    protected function storeData(array $data)
+    protected function setData(array $data)
     {
         foreach($data as $property => $value)
         {

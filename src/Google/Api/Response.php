@@ -38,17 +38,17 @@ class Response
      */
     public function __construct($response)
     {
-        $this->storeResponse($response);
+        $this->setResponse($response);
     }
 
     /**
-     * Stores the API response data or error.
+     * Sets the API response data or error.
      * 
      * @param AbstractData|Error $response
      *
      * @throws \LogicException When an unexpected response format is found.
      */
-    protected function storeResponse($response)
+    protected function setResponse($response)
     {
         if($response instanceof AbstractData)
         {

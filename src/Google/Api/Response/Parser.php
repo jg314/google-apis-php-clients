@@ -85,6 +85,11 @@ class Parser
 
         if(isset($response->error))
         {
+            if (!($response->error instanceof \stdClass))
+            {
+                throw new \RuntimeException('Invalid API response error format.');
+            }
+
             $responseObject = $this->parseError($response->error);
         }
         else
@@ -105,8 +110,8 @@ class Parser
     protected function parseError(\stdClass $error)
     {
         return new Error(
-            isset($response->error->code) ? $response->error->code : null,
-            isset($response->error->message) ? $response->error->message : null
+            isset($error->code) ? $error->code : null,
+            isset($error->message) ? $error->message : null
         );
     }
 }

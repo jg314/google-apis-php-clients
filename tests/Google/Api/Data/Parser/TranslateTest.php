@@ -14,7 +14,7 @@ namespace Google\Api\Data\Parser;
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Translation
+     * @var Translate
      */
     protected $parserStub;
 
@@ -54,7 +54,11 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             array(true, ''),
             array(true, 'foo'),
             array(true, new \stdClass()),
-            array(false, array())
+            array(false, array()),
+            array(true, array(null)),
+            array(true, array(true)),
+            array(true, array(false)),
+            array(true, array('foo'))
         );
 
         foreach($testCasesData as $testCaseData)

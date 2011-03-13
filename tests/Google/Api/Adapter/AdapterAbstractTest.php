@@ -21,7 +21,7 @@ abstract class AdapterAbstractTest extends \PHPUnit_Framework_TestCase
 
         try
         {
-            $adapter->executeRequest('invalid');
+            $adapter->executeRequest('');
             $this->fail('Expected exception to be throw.');
         }
         catch (\RuntimeException $e) {}

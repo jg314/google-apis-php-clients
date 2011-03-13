@@ -53,6 +53,6 @@ To run the tests, make sure you have PHPUnit installed, and just run the followi
 
     phpunit
 
-[1]: https://code.google.com/apis/console/?api=customsearch
+[1]: https://code.google.com/apis/console/
 [2]: http://code.google.com/apis/language/translate/overview.html
 [3]: http://groups.google.com/group/php-standards/web/psr-0-final-proposal

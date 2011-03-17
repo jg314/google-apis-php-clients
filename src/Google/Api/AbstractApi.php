@@ -195,7 +195,7 @@ abstract class AbstractApi
     /**
      * Gets the endpoint URL for the Google API.
      *
-     * @return DataParser
+     * @return string
      */
     abstract protected function getApiUrl();
 }

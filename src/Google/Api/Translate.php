@@ -23,7 +23,7 @@ use Google\Api\Data\Parser\Translate as DataParser;
  *
  * @link http://code.google.com/apis/language/translate/v2/using_rest.html
  */
-class Translate
+class Translate extends AbstractApi
 {
     const API_URL = 'https://www.googleapis.com/language/translate/v2';
     
@@ -36,16 +36,6 @@ class Translate
 
     const FORMAT_HTML = 'html';
     const FORMAT_TEXT = 'text';
-
-    /**
-     * @var array
-     */
-    protected static $apiRequestCache = array();
-
-    /**
-     * @var Adapter
-     */
-    protected $adapter;
 
     /**
      * @var string
@@ -85,29 +75,7 @@ class Translate
             $this->setSourceText($sourceText);
         }
 
-        $this->setAdapter($adapter ?: new Curl());
-    }
-
-    /**
-     * Gets the adapter used to execute the API request.
-     * 
-     * @return Adapter
-     */
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
-
-    /**
-     * Sets the adapter used to execute the API request.
-     * 
-     * @param Adapter $adapter
-     * @return Translate
-     */
-    public function setAdapter(Adapter $adapter)
-    {
-        $this->adapter = $adapter;
-        return $this;
+        parent::__construct($adapter);
     }
 
     /**
@@ -394,19 +362,6 @@ class Translate
     }
 
     /**
-     * Executes the API request and returns a parsed and formatted Response object.
-     *
-     * @return Response
-     */
-    public function executeRequest()
-    {
-        $this->validateParameters();
-
-        $parser = new Parser(new DataParser());
-        return $parser->parse($this->executeApiRequest());
-    }
-
-    /**
      * Validates that all parameters are valid for for the API request.
      * 
      * @return boolean
@@ -434,70 +389,11 @@ class Translate
     }
 
     /**
-     * Gets the URL used to make the API request.
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getApiRequestUrl()
+    protected function getDataParser()
     {
-        $urlParameters = array();
-
-        foreach ($this->getApiRequestData() as $key => $value)
-        {
-            if(($parameter = $this->generateApiRequestUrlPart($key, $value)))
-            {
-                array_push($urlParameters, $parameter);
-            }
-        }
-
-        return self::API_URL . '?' . implode('&', $urlParameters);
-    }
-
-    /**
-     * Generates the specific part of the API request URL for the specified parameter and value.
-     *
-     * @param string $parameter
-     * @param mixed $value
-     * 
-     * @return string
-     */
-    protected function generateApiRequestUrlPart($parameter, $value = null)
-    {
-        switch(gettype($value))
-        {
-            case 'NULL':
-                return null;
-                break;
-
-            case 'array':
-
-                $subParts = array();
-
-                foreach($value as $subValue)
-                {
-                    array_push($subParts, $this->generateApiRequestUrlPart($parameter, $subValue));
-                }
-
-                return implode('&', $subParts);
-
-                break;
-
-            case 'boolean':
-                return sprintf('%s=%s', $parameter, urlencode($value ? 'true' : 'false'));
-                break;
-
-            case 'float':
-            case 'integer':
-            case 'string':
-                return sprintf('%s=%s', $parameter, urlencode($value));
-                break;
-
-            // @codeCoverageIgnoreStart
-            default:
-                throw new \LogicException('Unexpected parameter value data type.');
-                break;
-        }
-        // @codeCoverageIgnoreEnd
+        return new DataParser();
     }
 
     /**
@@ -518,24 +414,10 @@ class Translate
     }
 
     /**
-     * Executes the actual API request and returns the raw response.
-     * 
-     * @return string
-     *
-     * @codeCoverageIgnore
+     * {@inheritdoc}
      */
-    protected function executeApiRequest()
+    protected function getApiUrl()
     {
-        $requestUrl = $this->getApiRequestUrl();
-        $cacheKey = md5($requestUrl);
-
-        if(isset(static::$apiRequestCache[$cacheKey]))
-        {
-            return static::$apiRequestCache[$cacheKey];
-        }
-
-        $response = $this->getAdapter()->executeRequest($requestUrl);
-
-        return static::$apiRequestCache[$cacheKey] = $response;
+        return self::API_URL;
     }
 }

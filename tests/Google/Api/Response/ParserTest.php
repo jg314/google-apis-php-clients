@@ -70,11 +70,11 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException($expectError ? '\RuntimeException' : null);
         $result = $this->parserStub->parse($apiResponse);
-        $this->assertType('Google\Api\Response', $result);
+        $this->assertInstanceOf('Google\Api\Response', $result);
 
         $this->assertFalse($result->isSuccess());
         $this->assertNull($result->getData());
-        $this->assertType('Google\Api\Response\Error', $result->getError());
+        $this->assertInstanceOf('Google\Api\Response\Error', $result->getError());
 
         $this->assertEquals($code, $result->getError()->getCode());
         $this->assertEquals($message, $result->getError()->getMessage());

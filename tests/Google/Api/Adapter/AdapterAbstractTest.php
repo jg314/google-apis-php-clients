@@ -27,7 +27,7 @@ abstract class AdapterAbstractTest extends \PHPUnit_Framework_TestCase
         catch (\RuntimeException $e) {}
 
         $response = $adapter->executeRequest('http://www.google.co.uk/');
-        $this->assertType('string', $response);
+        $this->assertInternalType('string', $response);
         $this->assertTrue(strlen(trim($response)) > 0);
     }
 }

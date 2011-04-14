@@ -72,6 +72,6 @@ class TranslationTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException($expectError ? '\Google\Api\Data\Parser\Exception' : null);
         $result = $this->parserStub->parse($data);
-        $this->assertType('Google\Api\Data\Translate\Translation', $result);
+        $this->assertInstanceOf('Google\Api\Data\Translate\Translation', $result);
     }
 }

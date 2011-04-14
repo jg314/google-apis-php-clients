@@ -41,10 +41,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
     public function testSettingAdapter()
     {
-        $this->assertType('\Google\Api\Adapter\Curl', $this->clientStub->getAdapter());
+        $this->assertInstanceOf('\Google\Api\Adapter\Curl', $this->clientStub->getAdapter());
 
         $adapter = new \Google\Api\Adapter\FileGetContents();
-        $this->assertType('\Google\Api\Translate', $this->clientStub->setAdapter($adapter));
+        $this->assertInstanceOf('\Google\Api\Translate', $this->clientStub->setAdapter($adapter));
         $this->assertTrue($adapter === $this->clientStub->getAdapter());
     }
 
@@ -67,7 +67,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function testSettingApiKey($expectError, $data)
     {
         $this->setExpectedException($expectError ? 'InvalidArgumentException' : null);
-        $this->assertType('\Google\Api\Translate', $this->clientStub->setApiKey($data));
+        $this->assertInstanceOf('\Google\Api\Translate', $this->clientStub->setApiKey($data));
         $this->assertEquals($data, $this->clientStub->getApiKey());
     }
 
@@ -92,7 +92,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function testSettingFormat($expectError, $data)
     {
         $this->setExpectedException($expectError ? 'InvalidArgumentException' : null);
-        $this->assertType('\Google\Api\Translate', $this->clientStub->setFormat($data));
+        $this->assertInstanceOf('\Google\Api\Translate', $this->clientStub->setFormat($data));
         $this->assertEquals($data, $this->clientStub->getFormat());
     }
 
@@ -121,7 +121,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function testSettingSourceText($expectError, $data, $expectedData = null)
     {
         $this->setExpectedException($expectError ? 'InvalidArgumentException' : null);
-        $this->assertType('\Google\Api\Translate', $this->clientStub->setSourceText($data));
+        $this->assertInstanceOf('\Google\Api\Translate', $this->clientStub->setSourceText($data));
         $this->assertEquals($expectedData !== null ? $expectedData : $data, $this->clientStub->getSourceText());
     }
 
@@ -136,10 +136,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         }
         catch (\InvalidArgumentException $e) {}
 
-        $this->assertType('\Google\Api\Translate', $this->clientStub->addSourceText('foo'));
+        $this->assertInstanceOf('\Google\Api\Translate', $this->clientStub->addSourceText('foo'));
         $this->assertEquals(array('foo'), $this->clientStub->getSourceText());
 
-        $this->assertType('\Google\Api\Translate', $this->clientStub->addSourceText('bar'));
+        $this->assertInstanceOf('\Google\Api\Translate', $this->clientStub->addSourceText('bar'));
         $this->assertEquals(array('foo', 'bar'), $this->clientStub->getSourceText());
     }
 
@@ -163,7 +163,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function testSettingSourceLanguage($expectError, $data)
     {
         $this->setExpectedException($expectError ? 'InvalidArgumentException' : null);
-        $this->assertType('\Google\Api\Translate', $this->clientStub->setSourceLanguage($data));
+        $this->assertInstanceOf('\Google\Api\Translate', $this->clientStub->setSourceLanguage($data));
         $this->assertEquals($data, $this->clientStub->getSourceLanguage());
     }
 
@@ -187,7 +187,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function testSettingTargetLanguage($expectError, $data)
     {
         $this->setExpectedException($expectError ? 'InvalidArgumentException' : null);
-        $this->assertType('\Google\Api\Translate', $this->clientStub->setTargetLanguage($data));
+        $this->assertInstanceOf('\Google\Api\Translate', $this->clientStub->setTargetLanguage($data));
         $this->assertEquals($data, $this->clientStub->getTargetLanguage());
     }
 
@@ -260,8 +260,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->clientStub->setTargetLanguage('fr');
 
         $response = $this->clientStub->executeRequest();
-        $this->assertType('\Google\Api\Response', $response);
+        $this->assertInstanceOf('\Google\Api\Response', $response);
         $this->assertTrue($response->isSuccess());
-        $this->assertType('\Google\Api\Data\Translate', $response->getData());
+        $this->assertInstanceOf('\Google\Api\Data\Translate', $response->getData());
     }
 }

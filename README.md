@@ -49,7 +49,7 @@ To get the translations from the `$response`,
 Testing
 -------
 
-To run the tests, make sure you have PHPUnit installed, and just run the following in the project root,
+To run the tests, make sure you have PHPUnit 3.5.0 and up installed, and just run the following in the project root,
 
     phpunit
 

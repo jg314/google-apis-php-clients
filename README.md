@@ -33,7 +33,7 @@ The following makes a simple Google Custom Search API request,
     $apiClient = new \Google\Api\CustomSearch();
     $apiClient->setApiKey('INSERT_YOUR_API_KEY_HERE');
     $apiClient->setCustomSearchEngineId('INSERT_YOUR_CUSTOM_SEARCH_ENGINE_ID_HERE');
-    $apiClient->addSourceText('flowers');
+    $apiClient->setQuery('flowers');
 
     $response = $apiClient->executeRequest();
 

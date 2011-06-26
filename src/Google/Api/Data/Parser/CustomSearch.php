@@ -14,6 +14,9 @@ namespace Google\Api\Data\Parser;
 use Google\Api\Data\Parser;
 use Google\Api\Data\Parser\Exception;
 use Google\Api\Data\Parser\CustomSearch\Query as QueryParser;
+use Google\Api\Data\Parser\CustomSearch\Context as ContextParser;
+
+use Google\Api\Data\CustomSearch\Context as ContextData;
 
 /**
  * CustomSearch parses raw data into a formatted CustomSearch Data object.
@@ -49,13 +52,23 @@ class CustomSearch implements Parser
         
         $formattedData['queries'] = $this->parseQueries($data->queries);
         
+        if(isset($data->context))
+        {
+            if(!($data->context instanceof \stdClass))
+            {
+                throw new Exception('Invalid context data.');
+            }
+            
+            $formattedData['context'] = $this->parseContext($data->context);
+        }
+        
         // @TODO: Return formatted Data object
     }
     
     /**
      * Parses the "queries" part of the data.
      *
-     * @param array $queries
+     * @param \stdClass $queries
      *
      * @return array
      *
@@ -77,5 +90,20 @@ class CustomSearch implements Parser
         }
 
         return $queryObjects;
+    }
+    
+    /**
+     * Parses the "context" part of the data.
+     *
+     * @param \stdClass $context
+     *
+     * @return ContextData
+     *
+     * @throws Exception When a parse error occurs.
+     */
+    protected function parseContext(\stdClass $context)
+    {
+        $contextParser = new ContextParser();
+        return $contextParser->parse($context);
     }
 }

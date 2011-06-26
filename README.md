@@ -5,14 +5,15 @@ The aim of this project is to create a well structured library for accessing Goo
 
 Currently the library contains PHP clients that enable you to interact programmatically with the following APIs,
 
-* [Google Translate API][2]
+* [Google Custom Search API v1][2]
+* [Google Translate API v2][3] _(Deprecated from Dec 1, 2011)_
 * (More coming soon)
 
 Requirements
 ------------
 
 * The library is only supported on PHP 5.3.0 and up.
-* It has been assumed an autoloader will be present. If you require one, you can find one [here][3].
+* It has been assumed an autoloader will be present. If you require one, you can find one [here][4].
 * Each API requires an API key, which you can get from the [Google APIs console][1].
 
 Installation
@@ -54,5 +55,6 @@ To run the tests, make sure you have PHPUnit 3.5.0 and up installed, and just ru
     phpunit
 
 [1]: https://code.google.com/apis/console/
-[2]: http://code.google.com/apis/language/translate/overview.html
-[3]: http://groups.google.com/group/php-standards/web/psr-0-final-proposal
+[2]: https://code.google.com/apis/customsearch/v1/overview.html
+[3]: http://code.google.com/apis/language/translate/overview.html
+[4]: http://groups.google.com/group/php-standards/web/psr-0-final-proposal

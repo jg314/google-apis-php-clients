@@ -11,8 +11,6 @@
 
 namespace Google\Api;
 
-use Google\Api\Adapter\Curl;
-
 use Google\Api\Response\Parser as Parser;
 use Google\Api\Data\Parser\Translate as DataParser;
 

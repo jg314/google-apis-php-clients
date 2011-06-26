@@ -72,7 +72,7 @@ class CustomSearch extends AbstractApi
     /**
      * @var integer
      */
-    protected $numberOfResults;
+    protected $numberOfResults = 10;
     
     /**
      * @var string
@@ -158,7 +158,7 @@ class CustomSearch extends AbstractApi
     {
         if($customSearchEngineId !== null && !(is_string($customSearchEngineId) && strlen(trim($customSearchEngineId)) > 0))
         {
-            throw new \InvalidArgumentException(sprintf('Invalid custom search engine ID "%s". Please provide a non-empty string.', $query));
+            throw new \InvalidArgumentException(sprintf('Invalid custom search engine ID "%s". Please provide a non-empty string.', $customSearchEngineId));
         }
         
         $this->customSearchEngineId = $customSearchEngineId;
@@ -421,19 +421,26 @@ class CustomSearch extends AbstractApi
      */
     protected function getApiRequestData()
     {
-        return array(
+        $data = array(
             self::PARAMETER_ALT                           => 'json',
+            self::PARAMETER_PRETTYPRINT                   => false,
             self::PARAMETER_CUSTOM_SEARCH_ENGINE_SPEC_URL => $this->getCustomSearchEngineSpecUrl(),
             self::PARAMETER_CUSTOM_SEARCH_ENGINE_ID       => $this->getCustomSearchEngineId(),
             self::PARAMETER_API_KEY                       => $this->getApiKey(),
             self::PARAMETER_LANGUAGE_RESTRICTION          => $this->getLanguageRestriction(),
             self::PARAMETER_NUMBER_OF_RESULTS             => $this->getNumberOfResults(),
-            self::PARAMETER_PRETTYPRINT                   => false,
             self::PARAMETER_QUERY                         => $this->getQuery(),
             self::PARAMETER_SAFETY_LEVEL                  => $this->getSafetyLevel(),
             self::PARAMETER_START_INDEX                   => $this->getStartIndex(),
             self::PARAMETER_FILTER_DUPLICATES             => $this->getFilterDuplicates(),
         );
+        
+        if($this->getCustomSearchEngineId() !== null)
+        {
+            unset($data[self::PARAMETER_CUSTOM_SEARCH_ENGINE_SPEC_URL]);
+        }
+        
+        return $data;
     }
 
     /**

@@ -36,10 +36,19 @@ class Facet implements Parser
     {
         $formattedData = array();
         
-        foreach($data as $key => $value)
+        if(!(isset($data->label) && is_string($data->label && strlen($data->label) > 0)))
         {
-            $formattedData[$key] = $value;
+            throw new Exception('Missing/invalid context facet label.');
         }
+        
+        $formattedData['label'] = $data->label;
+        
+        if(!(isset($data->anchor)))
+        {
+            throw new Exception('Missing/invalid context facet anchor.');
+        }
+        
+        $formattedData['anchor'] = $data->anchor;
 
         return new FacetData($formattedData);
     }

@@ -37,10 +37,12 @@ class Context implements Parser
     {
         $formattedData = array();
         
-        if(isset($data->title) && is_string($data->title) && strlen(trim($data->title)) > 0)
+        if(!(isset($data->title) && is_string($data->title) && strlen($data->title) > 0))
         {
-            $formattedData['title'] = $data->title;
+            throw new Exception('Missing/invalid context title.');
         }
+        
+        $formattedData['title'] = $data->title;
         
         if(isset($data->facets) && is_array($data->facets) && count($data->facets) > 0)
         {

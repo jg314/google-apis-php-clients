@@ -14,6 +14,7 @@ namespace Google\Api\Data\Parser;
 use Google\Api\Data\Parser;
 use Google\Api\Data\Parser\Exception;
 use Google\Api\Data\Parser\CustomSearch\Query as QueryParser;
+use Google\Api\Data\Parser\CustomSearch\Promotion as PromotionParser;
 use Google\Api\Data\Parser\CustomSearch\Context as ContextParser;
 
 use Google\Api\Data\CustomSearch\Context as ContextData;
@@ -40,6 +41,8 @@ class CustomSearch implements Parser
     {
         $formattedData = array();
         
+        var_dump($data);
+        
         if(!(isset($data->kind) && $data->kind === self::KIND))
         {
             throw new Exception(sprintf('Missing/invalid response kind. Expected "%s".', self::KIND));
@@ -52,6 +55,16 @@ class CustomSearch implements Parser
         
         $formattedData['queries'] = $this->parseQueries($data->queries);
         
+        if(isset($data->promotions))
+        {
+            if(!is_array($data->promotions))
+            {
+                throw new Exception('Invalid promotions data.');
+            }
+            
+            $formattedData['promotions'] = $this->parsePromotions($data->promotions);
+        }
+        
         if(isset($data->context))
         {
             if(!($data->context instanceof \stdClass))
@@ -62,6 +75,7 @@ class CustomSearch implements Parser
             $formattedData['context'] = $this->parseContext($data->context);
         }
         
+        var_dump($formattedData);
         // @TODO: Return formatted Data object
     }
     
@@ -90,6 +104,33 @@ class CustomSearch implements Parser
         }
 
         return $queryObjects;
+    }
+    
+    /**
+     * Parses the "promotions" part of the data.
+     *
+     * @param \stdClass $promotions
+     *
+     * @return array
+     *
+     * @throws Exception When a parse error occurs.
+     */
+    protected function parsePromotions(array $promotions)
+    {
+        $promotionObjects = array();
+        $promotionParser = new PromotionParser();
+
+        foreach($promotions as $type => $promotion)
+        {
+            if(!($promotion instanceof \stdClass))
+            {
+                throw new Exception('Invalid promotion format.');
+            }
+            
+            array_push($promotionObjects, $promotionParser->parse($promotion));
+        }
+
+        return $promotionObjects;
     }
     
     /**

@@ -26,6 +26,27 @@ Usage
 
 **Note:** More extensive documentation will be made available at a later date.
 
+### Customer Search API
+
+The following makes a simple Google Custom Search API request,
+
+    $apiClient = new \Google\Api\CustomSearch();
+    $apiClient->setApiKey('INSERT_YOUR_API_KEY_HERE');
+    $apiClient->setCustomSearchEngineId('INSERT_YOUR_CUSTOM_SEARCH_ENGINE_ID_HERE');
+    $apiClient->addSourceText('flowers');
+
+    $response = $apiClient->executeRequest();
+
+To get the results from the `$response`,
+
+    if ($response->isSuccess())
+    {
+        foreach($response->getData()->getItems() as $item)
+        {
+            echo $item->getHtmlTitle(), " - <a href=\"", $item->getLink(), "\">", $item->getDisplayLink(), "</a><br />";
+        }
+    }
+
 ### Translate API
 
 The following makes a simple Google Translate API request,

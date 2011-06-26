@@ -21,7 +21,17 @@ class Translate extends AbstractData
     /**
      * @var array
      */
-    protected $translations;
+    protected $translations = array();
+    
+    /**
+     * Determines if there are translations.
+     *
+     * @return array
+     */
+    public function hasTranslations()
+    {
+        return count($this->getTranslations()) > 0;
+    }
 
     /**
      * Gets the translations.

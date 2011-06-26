@@ -40,7 +40,7 @@ class BodyLine implements Parser
         {
             if(!(is_string($data->title) && strlen($data->title) > 0))
             {
-                throw new Exception('Missing/invalid promotion block object title.');
+                throw new Exception('Invalid promotion block object title.');
             }
             
             $formattedData['title'] = $data->title;
@@ -50,7 +50,7 @@ class BodyLine implements Parser
         {
             if(!(is_string($data->url) && strlen($data->url) > 0))
             {
-                throw new Exception('Missing/invalid promotion block object URL.');
+                throw new Exception('Invalid promotion block object URL.');
             }
             
             $formattedData['url'] = $data->url;
@@ -60,7 +60,7 @@ class BodyLine implements Parser
         {
             if(!(is_string($data->link) && strlen($data->link) > 0))
             {
-                throw new Exception('Missing/invalid promotion block object link.');
+                throw new Exception('Invalid promotion block object link.');
             }
             
             $formattedData['link'] = $data->link;

@@ -16,7 +16,9 @@ use Google\Api\Data\Parser\Exception;
 use Google\Api\Data\Parser\CustomSearch\Query as QueryParser;
 use Google\Api\Data\Parser\CustomSearch\Promotion as PromotionParser;
 use Google\Api\Data\Parser\CustomSearch\Context as ContextParser;
+use Google\Api\Data\Parser\CustomSearch\Item as ItemParser;
 
+use Google\Api\Data\CustomSearch as CustomSearchData;
 use Google\Api\Data\CustomSearch\Context as ContextData;
 
 /**
@@ -40,8 +42,6 @@ class CustomSearch implements Parser
     public function parse(\stdClass $data)
     {
         $formattedData = array();
-        
-        var_dump($data);
         
         if(!(isset($data->kind) && $data->kind === self::KIND))
         {
@@ -75,8 +75,17 @@ class CustomSearch implements Parser
             $formattedData['context'] = $this->parseContext($data->context);
         }
         
-        var_dump($formattedData);
-        // @TODO: Return formatted Data object
+        if(isset($data->items))
+        {
+            if(!is_array($data->items))
+            {
+                throw new Exception('Invalid items data.');
+            }
+            
+            $formattedData['items'] = $this->parseItems($data->items);
+        }
+        
+        return new CustomSearchData($formattedData);
     }
     
     /**
@@ -95,14 +104,15 @@ class CustomSearch implements Parser
 
         foreach($queries as $type => $query)
         {
-            if(!(is_array($query) && count($query) === 1 && array_key_exists(0, $query)))
+            if(!(is_array($query) && count($query) === 1 && array_key_exists(0, $query) && $query[0] instanceof \stdClass))
             {
                 throw new Exception('Invalid query format.');
             }
             
             $queryObjects[$type] = $queryParser->parse($query[0]);
         }
-
+        
+        unset($queryParser);
         return $queryObjects;
     }
     
@@ -129,7 +139,8 @@ class CustomSearch implements Parser
             
             array_push($promotionObjects, $promotionParser->parse($promotion));
         }
-
+        
+        unset($promotionParser);
         return $promotionObjects;
     }
     
@@ -145,6 +156,36 @@ class CustomSearch implements Parser
     protected function parseContext(\stdClass $context)
     {
         $contextParser = new ContextParser();
-        return $contextParser->parse($context);
+        $contextObject = $contextParser->parse($context);
+        unset($contextParser);
+        return $contextObject;
+    }
+    
+    /**
+     * Parses the "items" part of the data.
+     *
+     * @param \stdClass $items
+     *
+     * @return array
+     *
+     * @throws Exception When a parse error occurs.
+     */
+    protected function parseItems(array $items)
+    {
+        $itemObjects = array();
+        $itemParser = new ItemParser();
+
+        foreach($items as $item)
+        {
+            if(!($item instanceof \stdClass))
+            {
+                throw new Exception('Invalid item format.');
+            }
+            
+            array_push($itemObjects, $itemParser->parse($item));
+        }
+        
+        unset($itemParser);
+        return $itemObjects;
     }
 }

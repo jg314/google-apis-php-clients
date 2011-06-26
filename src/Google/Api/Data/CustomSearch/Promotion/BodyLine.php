@@ -38,7 +38,7 @@ class BodyLine extends AbstractData
     protected $link;
     
     /**
-     * Gets the block object's text.
+     * Gets the text.
      *
      * @return string
      */
@@ -48,7 +48,7 @@ class BodyLine extends AbstractData
     }
     
     /**
-     * Gets the block object's URL.
+     * Gets the URL.
      *
      * @return string
      */
@@ -58,7 +58,7 @@ class BodyLine extends AbstractData
     }
     
     /**
-     * Gets the block object's link.
+     * Gets the link.
      *
      * @return string
      */

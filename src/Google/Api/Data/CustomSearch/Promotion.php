@@ -48,7 +48,7 @@ class Promotion extends AbstractData
     protected $image;
     
     /**
-     * Gets the title of the subscribed link.
+     * Gets the title.
      *
      * @return string
      */
@@ -58,7 +58,7 @@ class Promotion extends AbstractData
     }
     
     /**
-     * Gets the link of the subscribed link.
+     * Gets the link.
      *
      * @return string
      */
@@ -68,11 +68,11 @@ class Promotion extends AbstractData
     }
     
     /**
-     * Gets the abridged version of the subscribed link.
+     * Gets the abridged version.
      *
      * @return string
      */
-    public function getTitle()
+    public function getDisplayLink()
     {
         return $this->displayLink;
     }
@@ -88,7 +88,7 @@ class Promotion extends AbstractData
     }
     
     /**
-     * Gets the block objects for the subscribed link.
+     * Gets the block objects.
      *
      * @return array
      * 

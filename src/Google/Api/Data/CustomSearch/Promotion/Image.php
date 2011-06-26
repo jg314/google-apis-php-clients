@@ -46,7 +46,7 @@ class Image extends AbstractData
     }
     
     /**
-     * Gets the width of the image.
+     * Gets the width.
      *
      * @return integer
      */
@@ -56,7 +56,7 @@ class Image extends AbstractData
     }
     
     /**
-     * Gets the height of the image.
+     * Gets the height.
      *
      * @return integer
      */

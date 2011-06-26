@@ -86,7 +86,7 @@ class Query extends AbstractData
     protected $sort;
     
     /**
-     * Gets the description of the query.
+     * Gets the description.
      *
      * @return string
      */

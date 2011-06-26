@@ -68,14 +68,15 @@ class Context implements Parser
 
         foreach($facets as $facet)
         {
-            if(!(is_array($facet) && count($facet) === 1 && array_key_exists(0, $facet)))
+            if(!(is_array($facet) && count($facet) === 1 && array_key_exists(0, $facet) && $facet[0] instanceof \stdClass))
             {
                 throw new Exception('Invalid facet format.');
             }
 
             array_push($facetObjects, $facetParser->parse($facet[0]));
         }
-
+        
+        unset($facetParser);
         return $facetObjects;
     }
 }

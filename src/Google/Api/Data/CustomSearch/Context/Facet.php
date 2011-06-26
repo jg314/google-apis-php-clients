@@ -33,7 +33,7 @@ class Facet extends AbstractData
     protected $anchor;
     
     /**
-     * Gets the label of the facet.
+     * Gets the label.
      *
      * @return string
      */
@@ -43,7 +43,7 @@ class Facet extends AbstractData
     }
     
     /**
-     * Gets the displayable name of the facet.
+     * Gets the displayable name.
      *
      * @return string
      */

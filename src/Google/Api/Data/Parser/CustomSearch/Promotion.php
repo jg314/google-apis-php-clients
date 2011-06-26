@@ -106,7 +106,8 @@ class Promotion implements Parser
             
             array_push($bodyLineObjects, $bodyLineParser->parse($bodyLine));
         }
-
+        
+        unset($bodyLineParser);
         return $bodyLineObjects;
     }
     
@@ -122,6 +123,8 @@ class Promotion implements Parser
     protected function parseImage(\stdClass $image)
     {
         $imageParser = new ImageParser();
-        return $imageParser->parse($image);
+        $imageObject = $imageParser->parse($image);
+        unset($imageParser);
+        return $imageObject;
     }
 }

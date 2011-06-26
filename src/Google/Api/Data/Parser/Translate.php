@@ -75,7 +75,8 @@ class Translate implements Parser
 
             array_push($translationObjects, $translationParser->parse($translation));
         }
-
+        
+        unset($translationParser);
         return $translationObjects;
     }
 }

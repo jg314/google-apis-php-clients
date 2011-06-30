@@ -11,15 +11,14 @@
 
 namespace Google\Api\Data\Parser;
 
+use Google\Api\Data\CustomSearch as CustomSearchData;
 use Google\Api\Data\Parser;
-use Google\Api\Data\Parser\Exception;
-use Google\Api\Data\Parser\CustomSearch\Query as QueryParser;
-use Google\Api\Data\Parser\CustomSearch\Promotion as PromotionParser;
 use Google\Api\Data\Parser\CustomSearch\Context as ContextParser;
 use Google\Api\Data\Parser\CustomSearch\Item as ItemParser;
+use Google\Api\Data\Parser\CustomSearch\Promotion as PromotionParser;
+use Google\Api\Data\Parser\CustomSearch\Query as QueryParser;
+use Google\Api\Data\Parser\Exception;
 
-use Google\Api\Data\CustomSearch as CustomSearchData;
-use Google\Api\Data\CustomSearch\Context as ContextData;
 
 /**
  * CustomSearch parses raw data into a formatted CustomSearch Data object.

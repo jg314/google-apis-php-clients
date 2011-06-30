@@ -11,11 +11,10 @@
 
 namespace Google\Api\Data\Parser\CustomSearch;
 
-use Google\Api\Data\Parser;
-use Google\Api\Data\Parser\Exception;
-use Google\Api\Data\Parser\CustomSearch\Item\PageMap as PageMapParser;
-
 use Google\Api\Data\CustomSearch\Item as ItemData;
+use Google\Api\Data\Parser;
+use Google\Api\Data\Parser\CustomSearch\Item\PageMap as PageMapParser;
+use Google\Api\Data\Parser\Exception;
 
 /**
  * Item parses raw data into a formatted Item Data object.
@@ -120,7 +119,7 @@ class Item implements Parser
      *
      * @param \stdClass $pagemap
      *
-     * @return PageMapData
+     * @return \Google\Api\Data\CustomSearch\Item\PageMap
      *
      * @throws Exception When a parse error occurs.
      */

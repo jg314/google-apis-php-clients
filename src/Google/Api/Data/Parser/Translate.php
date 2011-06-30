@@ -14,7 +14,6 @@ namespace Google\Api\Data\Parser;
 use Google\Api\Data\Parser;
 use Google\Api\Data\Parser\Exception;
 use Google\Api\Data\Parser\Translate\Translation as TranslationParser;
-
 use Google\Api\Data\Translate as TranslateData;
 
 /**

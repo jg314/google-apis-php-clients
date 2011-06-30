@@ -12,9 +12,8 @@
 namespace Google\Api;
 
 use Google\Api\Adapter\Curl;
-
-use Google\Api\Response\Parser as Parser;
 use Google\Api\Data\Parser as DataParser;
+use Google\Api\Response\Parser as Parser;
 
 /**
  * AbstractApi is the base client class for the each Google API.

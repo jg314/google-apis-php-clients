@@ -11,10 +11,9 @@
 
 namespace Google\Api\Data\Parser\CustomSearch;
 
+use Google\Api\Data\CustomSearch\Query as QueryData;
 use Google\Api\Data\Parser;
 use Google\Api\Data\Parser\Exception;
-
-use Google\Api\Data\CustomSearch\Query as QueryData;
 
 /**
  * Query parses raw data into a formatted Query Data object.

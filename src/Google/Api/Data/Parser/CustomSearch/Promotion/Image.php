@@ -11,10 +11,9 @@
 
 namespace Google\Api\Data\Parser\CustomSearch\Promotion;
 
+use Google\Api\Data\CustomSearch\Promotion\Image as ImageData;
 use Google\Api\Data\Parser;
 use Google\Api\Data\Parser\Exception;
-
-use Google\Api\Data\CustomSearch\Promotion\Image as ImageData;
 
 /**
  * Image parses raw data into a formatted Image Data object.

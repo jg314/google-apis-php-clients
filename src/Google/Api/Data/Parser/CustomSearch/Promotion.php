@@ -11,13 +11,11 @@
 
 namespace Google\Api\Data\Parser\CustomSearch;
 
+use Google\Api\Data\CustomSearch\Promotion as PromotionData;
 use Google\Api\Data\Parser;
-use Google\Api\Data\Parser\Exception;
 use Google\Api\Data\Parser\CustomSearch\Promotion\BodyLine as BodyLineParser;
 use Google\Api\Data\Parser\CustomSearch\Promotion\Image as ImageParser;
-
-use Google\Api\Data\CustomSearch\Promotion as PromotionData;
-use Google\Api\Data\CustomSearch\Promotion\Image as ImageData;
+use Google\Api\Data\Parser\Exception;
 
 /**
  * Promotion parses raw data into a formatted Promotion Data object.
@@ -116,7 +114,7 @@ class Promotion implements Parser
      *
      * @param \stdClass $image
      *
-     * @return ImageData
+     * @return \Google\Api\Data\CustomSearch\Promotion\Image
      *
      * @throws Exception When a parse error occurs.
      */

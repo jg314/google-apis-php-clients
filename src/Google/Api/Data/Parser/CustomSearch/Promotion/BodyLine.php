@@ -11,10 +11,9 @@
 
 namespace Google\Api\Data\Parser\CustomSearch\Promotion;
 
+use Google\Api\Data\CustomSearch\Promotion\BodyLine as BodyLineData;
 use Google\Api\Data\Parser;
 use Google\Api\Data\Parser\Exception;
-
-use Google\Api\Data\CustomSearch\Promotion\BodyLine as BodyLineData;
 
 /**
  * BodyLine parses raw data into a formatted BodyLine Data object.

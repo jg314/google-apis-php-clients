@@ -11,10 +11,9 @@
 
 namespace Google\Api\Response;
 
+use Google\Api\Data\Parser as ResponseDataParser;
 use Google\Api\Response;
 use Google\Api\Response\Error;
-
-use Google\Api\Data\Parser as ResponseDataParser;
 
 /**
  * Parser parses a raw Google API response and returns a formatted Response object.

@@ -13,7 +13,6 @@ namespace Google\Api\Data\Parser\Translate;
 
 use Google\Api\Data\Parser;
 use Google\Api\Data\Parser\Exception;
-
 use Google\Api\Data\Translate\Translation as TranslationData;
 
 /**

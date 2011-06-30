@@ -11,11 +11,10 @@
 
 namespace Google\Api\Data\Parser\CustomSearch;
 
-use Google\Api\Data\Parser;
-use Google\Api\Data\Parser\Exception;
-use Google\Api\Data\Parser\CustomSearch\Context\Facet as FacetParser;
-
 use Google\Api\Data\CustomSearch\Context as ContextData;
+use Google\Api\Data\Parser;
+use Google\Api\Data\Parser\CustomSearch\Context\Facet as FacetParser;
+use Google\Api\Data\Parser\Exception;
 
 /**
  * Context parses raw data into a formatted Context Data object.

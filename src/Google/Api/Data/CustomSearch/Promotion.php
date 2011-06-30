@@ -12,7 +12,6 @@
 namespace Google\Api\Data\CustomSearch;
 
 use Google\Api\Data\AbstractData;
-
 use Google\Api\Data\CustomSearch\Promotion\Image as Image;
 
 /**

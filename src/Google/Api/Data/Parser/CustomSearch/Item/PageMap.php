@@ -11,10 +11,9 @@
 
 namespace Google\Api\Data\Parser\CustomSearch\Item;
 
+use Google\Api\Data\CustomSearch\Item\PageMap as PageMapData;
 use Google\Api\Data\Parser;
 use Google\Api\Data\Parser\Exception;
-
-use Google\Api\Data\CustomSearch\Item\PageMap as PageMapData;
 
 /**
  * PageMap parses raw data into a formatted PageMap Data object.

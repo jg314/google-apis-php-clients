@@ -86,6 +86,16 @@ class CustomSearch implements Parser
         
         return new CustomSearchData($formattedData);
     }
+
+    /**
+     * Gets the Query parser used by this parser.
+     * 
+     * @return QueryParser
+     */
+    protected function getQueryParser()
+    {
+        return new QueryParser();
+    }
     
     /**
      * Parses the "queries" part of the data.
@@ -99,7 +109,7 @@ class CustomSearch implements Parser
     protected function parseQueries(\stdClass $queries)
     {
         $queryObjects = array();
-        $queryParser = new QueryParser();
+        $queryParser = $this->getQueryParser();
 
         foreach($queries as $type => $query)
         {
@@ -111,8 +121,17 @@ class CustomSearch implements Parser
             $queryObjects[$type] = $queryParser->parse($query[0]);
         }
         
-        unset($queryParser);
         return $queryObjects;
+    }
+
+    /**
+     * Gets the Promotion parser used by this parser.
+     *
+     * @return PromotionParser
+     */
+    protected function getPromotionParser()
+    {
+        return new PromotionParser();
     }
     
     /**
@@ -127,7 +146,7 @@ class CustomSearch implements Parser
     protected function parsePromotions(array $promotions)
     {
         $promotionObjects = array();
-        $promotionParser = new PromotionParser();
+        $promotionParser = $this->getPromotionParser();
 
         foreach($promotions as $type => $promotion)
         {
@@ -139,8 +158,17 @@ class CustomSearch implements Parser
             array_push($promotionObjects, $promotionParser->parse($promotion));
         }
         
-        unset($promotionParser);
         return $promotionObjects;
+    }
+
+    /**
+     * Gets the Context parser used by this parser.
+     *
+     * @return ContextParser
+     */
+    protected function getContextParser()
+    {
+        return new ContextParser();
     }
     
     /**
@@ -154,10 +182,17 @@ class CustomSearch implements Parser
      */
     protected function parseContext(\stdClass $context)
     {
-        $contextParser = new ContextParser();
-        $contextObject = $contextParser->parse($context);
-        unset($contextParser);
-        return $contextObject;
+        return $this->getContextParser()->parse($context);
+    }
+
+    /**
+     * Gets the Item parser used by this parser.
+     *
+     * @return ItemParser
+     */
+    protected function getItemParser()
+    {
+        return new ItemParser();
     }
     
     /**
@@ -172,7 +207,7 @@ class CustomSearch implements Parser
     protected function parseItems(array $items)
     {
         $itemObjects = array();
-        $itemParser = new ItemParser();
+        $itemParser = $this->getItemParser();
 
         foreach($items as $item)
         {
@@ -184,7 +219,6 @@ class CustomSearch implements Parser
             array_push($itemObjects, $itemParser->parse($item));
         }
         
-        unset($itemParser);
         return $itemObjects;
     }
 }

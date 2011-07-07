@@ -113,6 +113,16 @@ class Item implements Parser
 
         return new ItemData($formattedData);
     }
+
+    /**
+     * Gets the PageMap parser used by this parser.
+     *
+     * @return PageMapParser
+     */
+    protected function getPageMapParser()
+    {
+        return new PageMapParser();
+    }
     
     /**
      * Parses the "pagemap" part of the data.
@@ -126,7 +136,7 @@ class Item implements Parser
     protected function parsePageMap(\stdClass $pagemap)
     {
         $pageMapObjects = array();
-        $pageMapParser = new PageMapParser();
+        $pageMapParser = $this->getPageMapParser();
 
         foreach($pagemap as $name => $pagemapData)
         {
@@ -138,7 +148,6 @@ class Item implements Parser
             $pageMapObjects[$name] = $pageMapParser->parse($pagemapData[0]);
         }
         
-        unset($pageMapParser);
         return $pageMapObjects;
     }
 }

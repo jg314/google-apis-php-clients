@@ -80,6 +80,16 @@ class Promotion implements Parser
 
         return new PromotionData($formattedData);
     }
+
+    /**
+     * Gets the BodyLine parser used by this parser.
+     *
+     * @return BodyLineParser
+     */
+    protected function getBodyLineParser()
+    {
+        return new BodyLineParser();
+    }
     
     /**
      * Parses the "bodyLines" part of the data.
@@ -93,7 +103,7 @@ class Promotion implements Parser
     protected function parseBodyLines(array $bodyLines)
     {
         $bodyLineObjects = array();
-        $bodyLineParser = new BodyLineParser();
+        $bodyLineParser = $this->getBodyLineParser();
 
         foreach($bodyLines as $type => $bodyLine)
         {
@@ -105,8 +115,17 @@ class Promotion implements Parser
             array_push($bodyLineObjects, $bodyLineParser->parse($bodyLine));
         }
         
-        unset($bodyLineParser);
         return $bodyLineObjects;
+    }
+
+    /**
+     * Gets the Image parser used by this parser.
+     *
+     * @return ImageParser
+     */
+    protected function getImageParser()
+    {
+        return new ImageParser();
     }
     
     /**
@@ -120,9 +139,6 @@ class Promotion implements Parser
      */
     protected function parseImage(\stdClass $image)
     {
-        $imageParser = new ImageParser();
-        $imageObject = $imageParser->parse($image);
-        unset($imageParser);
-        return $imageObject;
+        return $this->getImageParser()->parse($image);
     }
 }

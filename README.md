@@ -26,7 +26,7 @@ Usage
 
 **Note:** More extensive documentation will be made available at a later date.
 
-### Customer Search API
+### Custom Search API
 
 The following makes a simple Google Custom Search API request,
 
@@ -43,7 +43,7 @@ To get the results from the `$response`,
     {
         foreach($response->getData()->getItems() as $item)
         {
-            echo $item->getHtmlTitle(), " - <a href=\"", $item->getLink(), "\">", $item->getDisplayLink(), "</a><br />";
+            echo $item->getHtmlTitle(), ' - <a href="', $item->getLink(), '">', $item->getDisplayLink(), '</a><br />';
         }
     }
 
@@ -64,7 +64,7 @@ To get the translations from the `$response`,
     {
         foreach($response->getData()->getTranslations() as $translation)
         {
-            echo $translation->getTranslatedText(), "<br />";
+            echo $translation->getTranslatedText(), '<br />';
         }
     }
 

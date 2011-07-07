@@ -50,6 +50,16 @@ class Context implements Parser
 
         return new ContextData($formattedData);
     }
+
+    /**
+     * Gets the Facet parser used by this parser.
+     *
+     * @return FacetParser
+     */
+    protected function getFacetParser()
+    {
+        return new FacetParser();
+    }
     
     /**
      * Parses the "facet" part of the context data.
@@ -63,7 +73,7 @@ class Context implements Parser
     protected function parseFacets(array $facets)
     {
         $facetObjects = array();
-        $facetParser = new FacetParser();
+        $facetParser = $this->getFacetParser();
 
         foreach($facets as $facet)
         {
@@ -75,7 +85,6 @@ class Context implements Parser
             array_push($facetObjects, $facetParser->parse($facet[0]));
         }
         
-        unset($facetParser);
         return $facetObjects;
     }
 }

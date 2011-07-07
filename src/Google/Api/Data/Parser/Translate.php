@@ -52,6 +52,16 @@ class Translate implements Parser
     }
 
     /**
+     * Gets the Translation parser used by this parser.
+     *
+     * @return TranslationParser
+     */
+    protected function getTranslationParser()
+    {
+        return new TranslationParser();
+    }
+
+    /**
      * Parses the "translations" part of the data.
      *
      * @param array $translations
@@ -63,7 +73,7 @@ class Translate implements Parser
     protected function parseTranslations(array $translations)
     {
         $translationObjects = array();
-        $translationParser = new TranslationParser();
+        $translationParser = $this->getTranslationParser();
 
         foreach($translations as $translation)
         {
@@ -75,7 +85,6 @@ class Translate implements Parser
             array_push($translationObjects, $translationParser->parse($translation));
         }
         
-        unset($translationParser);
         return $translationObjects;
     }
 }

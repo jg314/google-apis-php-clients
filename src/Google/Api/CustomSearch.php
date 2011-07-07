@@ -187,7 +187,7 @@ class CustomSearch extends AbstractApi
     {
         if($customSearchEngineSpecUrl !== null && !(is_string($customSearchEngineSpecUrl) && preg_match(self::REGEX_URL, $customSearchEngineSpecUrl)))
         {
-            throw new \InvalidArgumentException(sprintf('Invalid custom search engine spec URL "%s". Please provide a non-empty string.', $customSearchEngineSpecUrl));
+            throw new \InvalidArgumentException(sprintf('Invalid custom search engine spec URL "%s". Please provide a valid URL.', $customSearchEngineSpecUrl));
         }
         
         $this->customSearchEngineSpecUrl = $customSearchEngineSpecUrl;

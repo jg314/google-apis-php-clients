@@ -24,7 +24,7 @@ class CustomSearchTest extends \PHPUnit_Framework_TestCase
 
         $this->clientStub->expects($this->any())
                          ->method('executeApiRequest')
-                         ->will($this->returnValue(file_get_contents(__DIR__.'/Fixtures/translate.json')));
+                         ->will($this->returnValue(file_get_contents(__DIR__.'/Fixtures/customsearch.json')));
     }
 
     public function testConstruct()
@@ -286,21 +286,77 @@ class CustomSearchTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                '?prettyprint=false&key=key&q=string&target=en',
-                'key', 'string', 'en'
+                '?alt=json&prettyprint=false&key=key&q=flowers',
+                'key', 'flowers'
             ),
             array(
-                '?prettyprint=false&key=key&q=string&q=string&target=en',
-                'key', array('string', 'string'), 'en'
+                '?alt=json&prettyprint=false&cx=cseid&key=key&q=flowers&filter=true',
+                'key', 'flowers', 'cseid', 'http://www.google.co.uk/', true
             ),
             array(
-                '?prettyprint=false&format=html&key=key&q=string&source=de&target=en',
-                'key', 'string', 'en', 'html', 'de'
+                '?alt=json&prettyprint=false&cref=http%3A%2F%2Fwww.google.co.uk%2F&key=key&q=flowers&filter=true',
+                'key', 'flowers', null, 'http://www.google.co.uk/', true
             ),
             array(
-                '?prettyprint=false&format=html&key=key&q=string1&q=string2&source=de&target=en',
-                'key', array('string1', 'string2'), 'en', 'html', 'de'
+                '?alt=json&prettyprint=false&cx=cseid&key=key&lr=lang_en&num=10&q=flowers&safe=high&start=5&filter=true',
+                'key', 'flowers', 'cseid', null, true, 'lang_en', 10, CustomSearch::SAFETY_LEVEL_HIGH, 5
             ),
         );
+    }
+
+    /**
+     * @dataProvider dataProviderGetApiRequestUrl
+     */
+    public function testGetApiRequestUrl($expectedResult, $apiKey, $query, $customSearchEngineId = null, $customSearchEngineSpecUrl = null, $filterDuplicates = null, $languageRestriction = null, $numberOfResults = null, $safetyLevel = null, $startIndex = null)
+    {
+        $this->clientStub->setApiKey($apiKey);
+        $this->clientStub->setQuery($query);
+        $this->clientStub->setCustomSearchEngineId($customSearchEngineId);
+        $this->clientStub->setCustomSearchEngineSpecUrl($customSearchEngineSpecUrl);
+        $this->clientStub->setFilterDuplicates($filterDuplicates);
+        $this->clientStub->setLanguageRestriction($languageRestriction);
+        $this->clientStub->setNumberOfResults($numberOfResults);
+        $this->clientStub->setSafetyLevel($safetyLevel);
+        $this->clientStub->setStartIndex($startIndex);
+
+        $this->assertEquals(
+            CustomSearch::API_URL . $expectedResult,
+            $this->clientStub->getApiRequestUrl()
+        );
+    }
+
+    public function testExecuteRequest()
+    {
+        try
+        {
+            $response = $this->clientStub->executeRequest();
+            $this->fail('Excepted \RuntimeException to be thrown.');
+        }
+        catch(\RuntimeException $e) {}
+
+        $this->clientStub->setApiKey('key');
+
+        try
+        {
+            $response = $this->clientStub->executeRequest();
+            $this->fail('Excepted \RuntimeException to be thrown.');
+        }
+        catch(\RuntimeException $e) {}
+
+        $this->clientStub->setCustomSearchEngineId('cseid');
+
+        try
+        {
+            $response = $this->clientStub->executeRequest();
+            $this->fail('Excepted \RuntimeException to be thrown.');
+        }
+        catch(\RuntimeException $e) {}
+
+        $this->clientStub->setQuery('flowers');
+
+        $response = $this->clientStub->executeRequest();
+        $this->assertInstanceOf('\Google\Api\Response', $response);
+        $this->assertTrue($response->isSuccess());
+        $this->assertInstanceOf('\Google\Api\Data\CustomSearch', $response->getData());
     }
 }

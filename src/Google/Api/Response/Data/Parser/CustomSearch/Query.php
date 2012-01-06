@@ -35,7 +35,7 @@ class Query implements Parser
     {
         $formattedData = array();
         
-        if(!(isset($data->totalResults) && is_int($data->totalResults))) {
+        if(!(isset($data->totalResults) && is_numeric($data->totalResults))) {
             throw new Exception('Missing/invalid query total results.');
         }
         

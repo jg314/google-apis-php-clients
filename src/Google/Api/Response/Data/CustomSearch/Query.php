@@ -102,7 +102,7 @@ class Query extends AbstractData
      */
     public function getTotalNumberOfResults()
     {
-        return $this->totalResults;
+        return (int) $this->totalResults;
     }
     
     /**

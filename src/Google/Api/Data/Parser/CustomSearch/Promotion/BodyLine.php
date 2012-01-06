@@ -35,30 +35,27 @@ class BodyLine implements Parser
     {
         $formattedData = array();
         
-        if(isset($data->title))
-        {
-            if(!(is_string($data->title) && strlen($data->title) > 0))
-            {
+        if(isset($data->title)) {
+
+            if(!(is_string($data->title) && strlen($data->title) > 0)) {
                 throw new Exception('Invalid promotion block object title.');
             }
             
             $formattedData['title'] = $data->title;
         }
         
-        if(isset($data->url))
-        {
-            if(!(is_string($data->url) && strlen($data->url) > 0))
-            {
+        if(isset($data->url)) {
+
+            if(!(is_string($data->url) && strlen($data->url) > 0)) {
                 throw new Exception('Invalid promotion block object URL.');
             }
             
             $formattedData['url'] = $data->url;
         }
         
-        if(isset($data->link))
-        {
-            if(!(is_string($data->link) && strlen($data->link) > 0))
-            {
+        if(isset($data->link)) {
+            
+            if(!(is_string($data->link) && strlen($data->link) > 0)) {
                 throw new Exception('Invalid promotion block object link.');
             }
             

@@ -67,8 +67,7 @@ class Translate extends AbstractApi
      */
     public function __construct($sourceText = null, Adapter $adapter = null)
     {
-        if($sourceText !== null)
-        {
+        if($sourceText !== null) {
             $this->setSourceText($sourceText);
         }
 
@@ -98,8 +97,7 @@ class Translate extends AbstractApi
      */
     public function setApiKey($apiKey)
     {
-        if(!(is_string($apiKey) && strlen(trim($apiKey)) > 0))
-        {
+        if(!(is_string($apiKey) && strlen(trim($apiKey)) > 0)) {
             throw new \InvalidArgumentException('Invalid API key. Please provide a non-empty string.');
         }
 
@@ -130,15 +128,13 @@ class Translate extends AbstractApi
      */
     public function setFormat($format = null)
     {
-        if($format !== null)
-        {
-            if(is_bool($format))
-            {
+        if($format !== null) {
+
+            if(is_bool($format)) {
                 throw new \InvalidArgumentException('Invalid format. Please provide either "text" or "html".');
             }
 
-            switch($format)
-            {
+            switch($format) {
                 case self::FORMAT_HTML:
                 case self::FORMAT_TEXT:
                     break;
@@ -173,20 +169,16 @@ class Translate extends AbstractApi
      */
     public function setSourceText($sourceText)
     {
-        if(is_string($sourceText))
-        {
+        if(is_string($sourceText)) {
             $sourceText = array($sourceText);
         }
 
-        if(!is_array($sourceText) || count($sourceText) == 0)
-        {
+        if(!is_array($sourceText) || count($sourceText) == 0) {
             throw new \InvalidArgumentException('Invalid source text. Please provide either an array of or a single non-empty string.');
         }
 
-        foreach($sourceText as $key => $singleSourceText)
-        {
-            if(!$this->validateSourceText($singleSourceText))
-            {
+        foreach($sourceText as $key => $singleSourceText) {
+            if(!$this->validateSourceText($singleSourceText)) {
                 throw new \InvalidArgumentException(sprintf('Invalid source text'.(count($sourceText) != 1 ? ' at index "%s"' : null).'. Please provide a non-empty string.', $key));
             }
         }
@@ -206,8 +198,7 @@ class Translate extends AbstractApi
      */
     public function addSourceText($sourceText)
     {
-        if(!$this->validateSourceText($sourceText))
-        {
+        if(!$this->validateSourceText($sourceText)) {
             throw new \InvalidArgumentException('Invalid source text. Please provide a non-empty string.');
         }
 
@@ -252,8 +243,7 @@ class Translate extends AbstractApi
      */
     public function setSourceLanguage($sourceLanguage = null)
     {
-        if($sourceLanguage !== null && !(is_string($sourceLanguage) && array_key_exists($sourceLanguage, static::getAvailableLanguages())))
-        {
+        if($sourceLanguage !== null && !(is_string($sourceLanguage) && array_key_exists($sourceLanguage, static::getAvailableLanguages()))) {
             throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code.');
         }
 
@@ -284,8 +274,7 @@ class Translate extends AbstractApi
      */
     public function setTargetLanguage($targetLanguage)
     {
-        if(!(is_string($targetLanguage) && array_key_exists($targetLanguage, static::getAvailableLanguages())))
-        {
+        if(!(is_string($targetLanguage) && array_key_exists($targetLanguage, static::getAvailableLanguages()))) {
             throw new \InvalidArgumentException('Invalid source language. Please provide a valid language code.');
         }
 
@@ -367,18 +356,15 @@ class Translate extends AbstractApi
      */
     protected function validateParameters()
     {
-        if($this->getApiKey() === null)
-        {
+        if($this->getApiKey() === null) {
             throw new \RuntimeException('Missing required parameter "API key".');
         }
 
-        if(count($this->getSourceText()) == 0)
-        {
+        if(count($this->getSourceText()) == 0) {
             throw new \RuntimeException('Missing required parameter "source text".');
         }
 
-        if($this->getTargetLanguage() === null)
-        {
+        if($this->getTargetLanguage() === null) {
             throw new \RuntimeException('Missing required parameter "target language".');
         }
 

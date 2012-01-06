@@ -96,8 +96,7 @@ class CustomSearch extends AbstractApi
      */
     public function __construct($query = null, Adapter $adapter = null)
     {
-        if($query !== null)
-        {
+        if($query !== null) {
             $this->setQuery($query);
         }
 
@@ -125,8 +124,7 @@ class CustomSearch extends AbstractApi
      */
     public function setApiKey($apiKey)
     {
-        if(!(is_string($apiKey) && strlen(trim($apiKey)) > 0))
-        {
+        if(!(is_string($apiKey) && strlen(trim($apiKey)) > 0)) {
             throw new \InvalidArgumentException('Invalid API key. Please provide a non-empty string.');
         }
 
@@ -155,8 +153,7 @@ class CustomSearch extends AbstractApi
      */
     public function setCustomSearchEngineId($customSearchEngineId = null)
     {
-        if($customSearchEngineId !== null && !(is_string($customSearchEngineId) && strlen(trim($customSearchEngineId)) > 0))
-        {
+        if($customSearchEngineId !== null && !(is_string($customSearchEngineId) && strlen(trim($customSearchEngineId)) > 0)) {
             throw new \InvalidArgumentException(sprintf('Invalid custom search engine ID "%s". Please provide a non-empty string.', $customSearchEngineId));
         }
         
@@ -185,8 +182,7 @@ class CustomSearch extends AbstractApi
      */
     public function setCustomSearchEngineSpecUrl($customSearchEngineSpecUrl = null)
     {
-        if($customSearchEngineSpecUrl !== null && !(is_string($customSearchEngineSpecUrl) && preg_match(self::REGEX_URL, $customSearchEngineSpecUrl)))
-        {
+        if($customSearchEngineSpecUrl !== null && !(is_string($customSearchEngineSpecUrl) && preg_match(self::REGEX_URL, $customSearchEngineSpecUrl))) {
             throw new \InvalidArgumentException(sprintf('Invalid custom search engine spec URL "%s". Please provide a valid URL.', $customSearchEngineSpecUrl));
         }
         
@@ -215,8 +211,7 @@ class CustomSearch extends AbstractApi
      */
     public function setFilterDuplicates($filterDuplicates = null)
     {
-        if($filterDuplicates !== null && !is_bool($filterDuplicates))
-        {
+        if($filterDuplicates !== null && !is_bool($filterDuplicates)) {
             throw new \InvalidArgumentException(sprintf('Invalid filter duplicates value "%s". Please provide a boolean.', $filterDuplicates));
         }
         
@@ -247,8 +242,7 @@ class CustomSearch extends AbstractApi
      */
     public function setLanguageRestriction($languageRestriction = null)
     {
-        if($languageRestriction !== null && !(is_string($languageRestriction) && preg_match(self::REGEX_LANGUAGE_RESTRICTION, $languageRestriction)))
-        {
+        if($languageRestriction !== null && !(is_string($languageRestriction) && preg_match(self::REGEX_LANGUAGE_RESTRICTION, $languageRestriction))) {
             throw new \InvalidArgumentException(sprintf('Invalid language restriction "%s". Please see http://www.google.com/cse/docs/resultsxml.html#languageCollections for a list of valid language codes.', $languageRestriction));
         }
         
@@ -277,8 +271,7 @@ class CustomSearch extends AbstractApi
      */
     public function setNumberOfResults($numberOfResults = null)
     {
-        if($numberOfResults !== null && !(is_int($numberOfResults) && $numberOfResults >= 1 && $numberOfResults <= 10))
-        {
+        if($numberOfResults !== null && !(is_int($numberOfResults) && $numberOfResults >= 1 && $numberOfResults <= 10)) {
             throw new \InvalidArgumentException(sprintf('Invalid number of results "%s". Please provide an integer between 1 and 10.', $numberOfResults));
         }
         
@@ -307,8 +300,7 @@ class CustomSearch extends AbstractApi
      */
     public function setQuery($query)
     {
-        if(!(is_string($query) && strlen(trim($query)) > 0))
-        {
+        if(!(is_string($query) && strlen(trim($query)) > 0)) {
             throw new \InvalidArgumentException(sprintf('Invalid query "%s". Please provide a non-empty string.', $query));
         }
         
@@ -339,8 +331,7 @@ class CustomSearch extends AbstractApi
      */
     public function setSafetyLevel($safetyLevel = null)
     {
-        if($safetyLevel !== null && !(!is_bool($safetyLevel) && in_array($safetyLevel, array(self::SAFETY_LEVEL_HIGH, self::SAFETY_LEVEL_MEDIUM, self::SAFETY_LEVEL_OFF))))
-        {
+        if($safetyLevel !== null && !(!is_bool($safetyLevel) && in_array($safetyLevel, array(self::SAFETY_LEVEL_HIGH, self::SAFETY_LEVEL_MEDIUM, self::SAFETY_LEVEL_OFF)))) {
             throw new \InvalidArgumentException(sprintf('Invalid safety level "%s". Please provide either "high", "medium" or "off".', $safetyLevel));
         }
         
@@ -369,8 +360,7 @@ class CustomSearch extends AbstractApi
      */
     public function setStartIndex($startIndex = null)
     {
-        if($startIndex !== null && !(is_int($startIndex) && $startIndex >= 1 && $startIndex <= (101 - $this->getNumberOfResults())))
-        {
+        if($startIndex !== null && !(is_int($startIndex) && $startIndex >= 1 && $startIndex <= (101 - $this->getNumberOfResults()))) {
             throw new \InvalidArgumentException(sprintf('Invalid start index "%s". Please provide an integer between 1 and (101 - number of results).', $startIndex));
         }
         
@@ -387,18 +377,15 @@ class CustomSearch extends AbstractApi
      */
     protected function validateParameters()
     {
-        if($this->getApiKey() === null)
-        {
+        if($this->getApiKey() === null) {
             throw new \RuntimeException('Missing required parameter "API key".');
         }
         
-        if ($this->getCustomSearchEngineId() === null && $this->getCustomSearchEngineSpecUrl() === null)
-        {
+        if ($this->getCustomSearchEngineId() === null && $this->getCustomSearchEngineSpecUrl() === null) {
             throw new \RuntimeException('Missing required parameter customer search engine ID or spec URL (only one is required).');
         }
 
-        if($this->getQuery() === null)
-        {
+        if($this->getQuery() === null) {
             throw new \RuntimeException('Missing required parameter "query".');
         }
 
@@ -434,8 +421,7 @@ class CustomSearch extends AbstractApi
             self::PARAMETER_FILTER_DUPLICATES             => $this->getFilterDuplicates(),
         );
         
-        if($this->getCustomSearchEngineId() !== null)
-        {
+        if($this->getCustomSearchEngineId() !== null) {
             unset($data[self::PARAMETER_CUSTOM_SEARCH_ENGINE_SPEC_URL]);
         }
         
@@ -445,8 +431,7 @@ class CustomSearch extends AbstractApi
     /**
      * {@inheritdoc}
      */
-    protected function getApiUrl()
-    {
+    protected function getApiUrl() {
         return self::API_URL;
     }
 }

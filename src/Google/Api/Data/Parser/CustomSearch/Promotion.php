@@ -37,41 +37,36 @@ class Promotion implements Parser
     {
         $formattedData = array();
         
-        if(!(isset($data->title) && is_string($data->title) && strlen($data->title) > 0))
-        {
+        if(!(isset($data->title) && is_string($data->title) && strlen($data->title) > 0)) {
             throw new Exception('Missing/invalid promotion title.');
         }
         
         $formattedData['title'] = $data->title;
         
-        if(!(isset($data->link) && is_string($data->link) && strlen($data->link) > 0))
-        {
+        if(!(isset($data->link) && is_string($data->link) && strlen($data->link) > 0)) {
             throw new Exception('Missing/invalid promotion link.');
         }
         
         $formattedData['link'] = $data->link;
         
-        if(!(isset($data->displayLink) && is_string($data->displayLink) && strlen($data->displayLink) > 0))
-        {
+        if(!(isset($data->displayLink) && is_string($data->displayLink) && strlen($data->displayLink) > 0)) {
             throw new Exception('Missing/invalid promotion display link.');
         }
         
         $formattedData['displayLink'] = $data->displayLink;
         
-        if(isset($data->bodyLines))
-        {
-            if(!(is_array($data->bodyLines) && count($data->bodyLines) > 0))
-            {
+        if(isset($data->bodyLines)) {
+
+            if(!(is_array($data->bodyLines) && count($data->bodyLines) > 0)) {
                 throw new Exception('Invalid promotion block objects (body lines).');
             }
             
             $formattedData['bodyLines'] = $this->parseBodyLines();
         }
         
-        if(isset($data->image))
-        {
-            if(!($data->image instanceof \stdClass))
-            {
+        if(isset($data->image)) {
+            
+            if(!($data->image instanceof \stdClass)) {
                 throw new Exception('Invalid promotion image.');
             }
             
@@ -105,10 +100,9 @@ class Promotion implements Parser
         $bodyLineObjects = array();
         $bodyLineParser = $this->getBodyLineParser();
 
-        foreach($bodyLines as $type => $bodyLine)
-        {
-            if(!($bodyLine instanceof \stdClass))
-            {
+        foreach($bodyLines as $type => $bodyLine) {
+            
+            if(!($bodyLine instanceof \stdClass)) {
                 throw new Exception('Invalid promotion block object (body line).');
             }
             

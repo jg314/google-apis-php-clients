@@ -35,8 +35,7 @@ class PageMap implements Parser
     {
         $formattedData = array();
         
-        foreach($data as $key => $value)
-        {
+        foreach($data as $key => $value) {
             $formattedData[$key] = $value;
         }
 

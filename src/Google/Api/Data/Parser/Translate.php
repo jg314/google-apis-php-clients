@@ -36,13 +36,11 @@ class Translate implements Parser
     {
         $formattedData = array();
 
-        if(!(isset($data->data) && $data->data instanceof \stdClass))
-        {
+        if(!(isset($data->data) && $data->data instanceof \stdClass)) {
             throw new Exception('Missing/invalid response data.');
         }
 
-        if(!(isset($data->data->translations) && is_array($data->data->translations)))
-        {
+        if(!(isset($data->data->translations) && is_array($data->data->translations))) {
             throw new Exception('Missing/invalid translations data.');
         }
 
@@ -75,10 +73,9 @@ class Translate implements Parser
         $translationObjects = array();
         $translationParser = $this->getTranslationParser();
 
-        foreach($translations as $translation)
-        {
-            if(!($translation instanceof \stdClass))
-            {
+        foreach($translations as $translation) {
+            
+            if(!($translation instanceof \stdClass)) {
                 throw new Exception('Invalid translation format.');
             }
 

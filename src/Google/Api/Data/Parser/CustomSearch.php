@@ -42,42 +42,37 @@ class CustomSearch implements Parser
     {
         $formattedData = array();
         
-        if(!(isset($data->kind) && $data->kind === self::KIND))
-        {
+        if(!(isset($data->kind) && $data->kind === self::KIND)) {
             throw new Exception(sprintf('Missing/invalid response kind. Expected "%s".', self::KIND));
         }
         
-        if(!(isset($data->queries) && $data->queries instanceof \stdClass))
-        {
+        if(!(isset($data->queries) && $data->queries instanceof \stdClass)) {
             throw new Exception('Missing/invalid queries data.');
         }
         
         $formattedData['queries'] = $this->parseQueries($data->queries);
         
-        if(isset($data->promotions))
-        {
-            if(!is_array($data->promotions))
-            {
+        if(isset($data->promotions)) {
+            
+            if(!is_array($data->promotions)) {
                 throw new Exception('Invalid promotions data.');
             }
             
             $formattedData['promotions'] = $this->parsePromotions($data->promotions);
         }
         
-        if(isset($data->context))
-        {
-            if(!($data->context instanceof \stdClass))
-            {
+        if(isset($data->context)) {
+
+            if(!($data->context instanceof \stdClass)) {
                 throw new Exception('Invalid context data.');
             }
             
             $formattedData['context'] = $this->parseContext($data->context);
         }
         
-        if(isset($data->items))
-        {
-            if(!is_array($data->items))
-            {
+        if(isset($data->items)) {
+
+            if(!is_array($data->items)) {
                 throw new Exception('Invalid items data.');
             }
             
@@ -111,10 +106,9 @@ class CustomSearch implements Parser
         $queryObjects = array();
         $queryParser = $this->getQueryParser();
 
-        foreach($queries as $type => $query)
-        {
-            if(!(is_array($query) && count($query) === 1 && array_key_exists(0, $query) && $query[0] instanceof \stdClass))
-            {
+        foreach($queries as $type => $query) {
+            
+            if(!(is_array($query) && count($query) === 1 && array_key_exists(0, $query) && $query[0] instanceof \stdClass)) {
                 throw new Exception('Invalid query format.');
             }
             
@@ -148,10 +142,9 @@ class CustomSearch implements Parser
         $promotionObjects = array();
         $promotionParser = $this->getPromotionParser();
 
-        foreach($promotions as $type => $promotion)
-        {
-            if(!($promotion instanceof \stdClass))
-            {
+        foreach($promotions as $type => $promotion) {
+            
+            if(!($promotion instanceof \stdClass)) {
                 throw new Exception('Invalid promotion format.');
             }
             
@@ -209,10 +202,9 @@ class CustomSearch implements Parser
         $itemObjects = array();
         $itemParser = $this->getItemParser();
 
-        foreach($items as $item)
-        {
-            if(!($item instanceof \stdClass))
-            {
+        foreach($items as $item) {
+            
+            if(!($item instanceof \stdClass)) {
                 throw new Exception('Invalid item format.');
             }
             

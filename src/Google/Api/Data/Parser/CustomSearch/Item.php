@@ -38,73 +38,64 @@ class Item implements Parser
     {
         $formattedData = array();
         
-        if(!(isset($data->kind) && $data->kind === self::KIND))
-        {
+        if(!(isset($data->kind) && $data->kind === self::KIND)) {
             throw new Exception(sprintf('Missing/invalid item kind. Expected "%s".', self::KIND));
         }
         
-        if(!(isset($data->title) && is_string($data->title) && strlen($data->title) > 0))
-        {
+        if(!(isset($data->title) && is_string($data->title) && strlen($data->title) > 0)) {
             throw new Exception('Missing/invalid item title.');
         }
         
         $formattedData['title'] = $data->title;
         
-        if(!(isset($data->htmlTitle) && is_string($data->htmlTitle) && strlen($data->htmlTitle) > 0))
-        {
+        if(!(isset($data->htmlTitle) && is_string($data->htmlTitle) && strlen($data->htmlTitle) > 0)) {
             throw new Exception('Missing/invalid item HTML title.');
         }
         
         $formattedData['htmlTitle'] = $data->htmlTitle;
         
-        if(!(isset($data->link) && is_string($data->link) && strlen($data->link) > 0))
-        {
+        if(!(isset($data->link) && is_string($data->link) && strlen($data->link) > 0)) {
             throw new Exception('Missing/invalid item link.');
         }
         
         $formattedData['link'] = $data->link;
         
-        if(!(isset($data->displayLink) && is_string($data->displayLink) && strlen($data->displayLink) > 0))
-        {
+        if(!(isset($data->displayLink) && is_string($data->displayLink) && strlen($data->displayLink) > 0)) {
             throw new Exception('Missing/invalid item display link.');
         }
         
         $formattedData['displayLink'] = $data->displayLink;
         
-        if(isset($data->snippet))
-        {
-            if(!(is_string($data->snippet) && strlen($data->snippet) > 0))
-            {
+        if(isset($data->snippet)) {
+
+            if(!(is_string($data->snippet) && strlen($data->snippet) > 0)) {
                 throw new Exception('Invalid item snippet.');
             }
             
             $formattedData['snippet'] = $data->snippet;
         }
         
-        if(isset($data->htmlSnippet))
-        {
-            if(!(is_string($data->htmlSnippet) && strlen($data->htmlSnippet) > 0))
-            {
+        if(isset($data->htmlSnippet)) {
+
+            if(!(is_string($data->htmlSnippet) && strlen($data->htmlSnippet) > 0)) {
                 throw new Exception('Invalid item HTML snippet.');
             }
             
             $formattedData['htmlSnippet'] = $data->htmlSnippet;
         }
         
-        if(isset($data->cacheId))
-        {
-            if(!(is_string($data->cacheId) && strlen($data->cacheId) > 0))
-            {
+        if(isset($data->cacheId)) {
+
+            if(!(is_string($data->cacheId) && strlen($data->cacheId) > 0)) {
                 throw new Exception('Invalid item cache ID.');
             }
             
             $formattedData['cacheId'] = $data->cacheId;
         }
         
-        if(isset($data->pagemap))
-        {
-            if(!($data->pagemap instanceof \stdClass))
-            {
+        if(isset($data->pagemap)) {
+
+            if(!($data->pagemap instanceof \stdClass)) {
                 throw new Exception('Invalid item PageMap.');
             }
             
@@ -138,10 +129,9 @@ class Item implements Parser
         $pageMapObjects = array();
         $pageMapParser = $this->getPageMapParser();
 
-        foreach($pagemap as $name => $pagemapData)
-        {
-            if(!(is_array($pagemapData) && count($pagemapData) === 1 && array_key_exists(0, $pagemapData) && $pagemapData[0] instanceof \stdClass))
-            {
+        foreach($pagemap as $name => $pagemapData) {
+            
+            if(!(is_array($pagemapData) && count($pagemapData) === 1 && array_key_exists(0, $pagemapData) && $pagemapData[0] instanceof \stdClass)) {
                 throw new Exception('Invalid item PageMap data.');
             }
             

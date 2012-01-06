@@ -150,13 +150,10 @@ class Item extends AbstractData
      */
     public function getPageMap($name)
     {
-        if(isset($this->pagemap[$name]))
-        {
+        if(isset($this->pagemap[$name])) {
             return $this->pagemap[$name];
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 }

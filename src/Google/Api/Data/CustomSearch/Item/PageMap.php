@@ -54,13 +54,10 @@ class PageMap extends AbstractData
      */
     public function getProperty($property)
     {
-        if(isset($this->data[$property]))
-        {
+        if(isset($this->data[$property])) {
             return $this->data[$property];
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 }

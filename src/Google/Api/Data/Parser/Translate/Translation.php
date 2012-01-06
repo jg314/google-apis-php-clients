@@ -35,17 +35,15 @@ class Translation implements Parser
     {
         $formattedData = array();
 
-        if(!(isset($data->translatedText) && is_string($data->translatedText)))
-        {
+        if(!(isset($data->translatedText) && is_string($data->translatedText))) {
             throw new Exception('Missing/invalid translation translated text.');
         }
 
         $formattedData['translatedText'] = $data->translatedText;
 
-        if(isset($data->detectedSourceLanguage))
-        {
-            if(!(is_string($data->detectedSourceLanguage) && strlen($data->detectedSourceLanguage) > 0))
-            {
+        if(isset($data->detectedSourceLanguage)) {
+            
+            if(!(is_string($data->detectedSourceLanguage) && strlen($data->detectedSourceLanguage) > 0)) {
                 throw new Exception('Invalid translation detected source language.');
             }
 

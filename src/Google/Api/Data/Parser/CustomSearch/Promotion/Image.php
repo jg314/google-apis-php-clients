@@ -35,22 +35,19 @@ class Image implements Parser
     {
         $formattedData = array();
         
-        if(!(isset($data->source) && is_string($data->source) && strlen($data->source) > 0))
-        {
+        if(!(isset($data->source) && is_string($data->source) && strlen($data->source) > 0)) {
             throw new Exception('Missing/invalid promotion image source.');
         }
         
         $formattedData['label'] = $data->label;
         
-        if(!(isset($data->width) && is_int($data->width) && $data->width > 0))
-        {
+        if(!(isset($data->width) && is_int($data->width) && $data->width > 0)) {
             throw new Exception('Missing/invalid promotion image width.');
         }
         
         $formattedData['width'] = $data->width;
         
-        if(!(isset($data->height) && is_int($data->height) && $data->height > 0))
-        {
+        if(!(isset($data->height) && is_int($data->height) && $data->height > 0)) {
             throw new Exception('Missing/invalid promotion image width.');
         }
         

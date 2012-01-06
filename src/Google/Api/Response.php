@@ -50,16 +50,11 @@ class Response
      */
     protected function setResponse($response)
     {
-        if($response instanceof AbstractData)
-        {
+        if($response instanceof AbstractData) {
             $this->data = $response;
-        }
-        else if($response instanceof Error)
-        {
+        } else if($response instanceof Error) {
             $this->error = $response;
-        }
-        else
-        {
+        } else {
             throw new \LogicException('Unexpected response format.');
         }
     }

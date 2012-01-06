@@ -71,28 +71,24 @@ class Parser
      */
     public function parse($apiResponse)
     {
-        if(!is_string($apiResponse))
-        {
+        if(!is_string($apiResponse)) {
             throw new \InvalidArgumentException('Invalid API response format. Expected non-empty string.');
         }
 
         $response = @json_decode($apiResponse);
-        if(!($response instanceof \stdClass))
-        {
+        if(!($response instanceof \stdClass)) {
             throw new \InvalidArgumentException('The API response could not be JSON decoded.');
         }
 
-        if(isset($response->error))
-        {
-            if (!($response->error instanceof \stdClass))
-            {
+        if(isset($response->error)) {
+            
+            if (!($response->error instanceof \stdClass)) {
                 throw new \RuntimeException('Invalid API response error format.');
             }
 
             $responseObject = $this->parseError($response->error);
-        }
-        else
-        {
+            
+        } else {
             $responseObject = $this->getResponseDataParser()->parse($response);
         }
 

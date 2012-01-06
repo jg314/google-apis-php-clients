@@ -35,10 +35,9 @@ abstract class AbstractData
      */
     protected function setData(array $data)
     {
-        foreach($data as $property => $value)
-        {
-            if(!property_exists($this, $property))
-            {
+        foreach($data as $property => $value) {
+            
+            if(!property_exists($this, $property)) {
                 throw new \UnexpectedValueException(sprintf('Property "%s" does not exist on data object.', $property));
             }
 

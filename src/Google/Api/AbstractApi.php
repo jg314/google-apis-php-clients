@@ -107,14 +107,11 @@ abstract class AbstractApi
         $requestUrl = $this->getApiRequestUrl();
         $cacheKey = md5($requestUrl);
 
-        if(isset(static::$apiRequestCache[$cacheKey]))
-        {
+        if(isset(static::$apiRequestCache[$cacheKey])) {
             return static::$apiRequestCache[$cacheKey];
         }
 
-        $response = $this->getAdapter()->executeRequest($requestUrl);
-
-        return static::$apiRequestCache[$cacheKey] = $response;
+        return static::$apiRequestCache[$cacheKey] = $this->getAdapter()->executeRequest($requestUrl);
     }
 
     /**
@@ -126,10 +123,8 @@ abstract class AbstractApi
     {
         $urlParameters = array();
 
-        foreach ($this->getApiRequestData() as $key => $value)
-        {
-            if(($parameter = $this->generateApiRequestUrlPart($key, $value)))
-            {
+        foreach ($this->getApiRequestData() as $key => $value) {
+            if(($parameter = $this->generateApiRequestUrlPart($key, $value))) {
                 array_push($urlParameters, $parameter);
             }
         }
@@ -154,8 +149,8 @@ abstract class AbstractApi
      */
     protected function generateApiRequestUrlPart($parameter, $value = null)
     {
-        switch(gettype($value))
-        {
+        switch(gettype($value)) {
+
             case 'NULL':
                 return null;
                 break;
@@ -164,8 +159,7 @@ abstract class AbstractApi
 
                 $subParts = array();
 
-                foreach($value as $subValue)
-                {
+                foreach($value as $subValue) {
                     array_push($subParts, $this->generateApiRequestUrlPart($parameter, $subValue));
                 }
 

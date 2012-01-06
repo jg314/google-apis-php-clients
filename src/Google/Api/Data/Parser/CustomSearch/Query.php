@@ -35,13 +35,11 @@ class Query implements Parser
     {
         $formattedData = array();
         
-        if(!(isset($data->totalResults) && is_int($data->totalResults)))
-        {
+        if(!(isset($data->totalResults) && is_int($data->totalResults))) {
             throw new Exception('Missing/invalid query total results.');
         }
         
-        foreach($data as $key => $value)
-        {
+        foreach($data as $key => $value) {
             $formattedData[$key] = $value;
         }
 

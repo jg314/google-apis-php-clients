@@ -11,8 +11,8 @@
 
 namespace Google\Api\Response;
 
-use Google\Api\Data\Parser as ResponseDataParser;
 use Google\Api\Response;
+use Google\Api\Response\Data\Parser as ResponseDataParser;
 use Google\Api\Response\Error;
 
 /**

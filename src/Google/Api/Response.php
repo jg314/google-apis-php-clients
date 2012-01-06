@@ -11,7 +11,7 @@
 
 namespace Google\Api;
 
-use \Google\Api\Data\AbstractData;
+use \Google\Api\Response\Data\AbstractData;
 use \Google\Api\Response\Error;
 
 /**

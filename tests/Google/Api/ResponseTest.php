@@ -12,7 +12,7 @@
 namespace Google\Api;
 
 use Google\Api\Response\Error as ErrorStub;
-use Google\Api\Data\Translate as DataStub;
+use Google\Api\Response\Data\Translate as DataStub;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {

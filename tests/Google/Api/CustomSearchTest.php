@@ -357,6 +357,6 @@ class CustomSearchTest extends \PHPUnit_Framework_TestCase
         $response = $this->clientStub->executeRequest();
         $this->assertInstanceOf('\Google\Api\Response', $response);
         $this->assertTrue($response->isSuccess());
-        $this->assertInstanceOf('\Google\Api\Data\CustomSearch', $response->getData());
+        $this->assertInstanceOf('\Google\Api\Response\Data\CustomSearch', $response->getData());
     }
 }

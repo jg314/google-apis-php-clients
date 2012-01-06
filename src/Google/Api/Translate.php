@@ -11,7 +11,7 @@
 
 namespace Google\Api;
 
-use Google\Api\Data\Parser\Translate as DataParser;
+use Google\Api\Response\Data\Parser\Translate as DataParser;
 
 /**
  * Translate is the main client class for the Google Translate API.

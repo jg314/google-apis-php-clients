@@ -11,7 +11,7 @@
 
 namespace Google\Api;
 
-use Google\Api\Data\Parser\CustomSearch as DataParser;
+use Google\Api\Response\Data\Parser\CustomSearch as DataParser;
 
 /**
  * CustomSearch is the main client class for the Google Custom Search API.

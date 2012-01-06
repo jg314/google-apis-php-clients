@@ -262,6 +262,6 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $response = $this->clientStub->executeRequest();
         $this->assertInstanceOf('\Google\Api\Response', $response);
         $this->assertTrue($response->isSuccess());
-        $this->assertInstanceOf('\Google\Api\Data\Translate', $response->getData());
+        $this->assertInstanceOf('\Google\Api\Response\Data\Translate', $response->getData());
     }
 }

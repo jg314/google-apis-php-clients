@@ -1,12 +1,12 @@
 Google APIs PHP Clients
 =======================
 
-The aim of this project is to create a well structured library for accessing Google APIs available through the [Google APIs console][1].
+The aim of this project is to create a well structured PHP library for accessing Google APIs available through the [Google APIs console][1].
 
-Currently the library contains PHP clients that enable you to interact programmatically with the following APIs,
+Currently the library enables you to interact programmatically with the following Google APIs,
 
 * [Google Custom Search API v1][2]
-* [Google Translate API v2][3] _(Deprecated from Dec 1, 2011)_
+* [Google Translate API v2][3] _(Paid service only as of Dec 1st, 2011)_
 * (More coming soon)
 
 Requirements
@@ -28,7 +28,9 @@ Usage
 
 ### Custom Search API
 
-The following makes a simple Google Custom Search API request,
+**Note:** As well as an API key, the [Google Custom Search API v1][2] also requires either a [Google Custom Search][5] ID or specification URL.
+
+The following makes a simple [Google Custom Search API v1][2] request,
 
     $apiClient = new \Google\Api\CustomSearch();
     $apiClient->setApiKey('INSERT_YOUR_API_KEY_HERE');
@@ -49,7 +51,7 @@ To get the results from the `$response`,
 
 ### Translate API
 
-The following makes a simple Google Translate API request,
+The following makes a simple [Google Translate API v2][3] request,
 
     $apiClient = new \Google\Api\Translate();
     $apiClient->setApiKey('INSERT_YOUR_API_KEY_HERE');
@@ -71,7 +73,7 @@ To get the translations from the `$response`,
 Testing
 -------
 
-To run the tests, make sure you have PHPUnit 3.5.0 and up installed, and just run the following in the project root,
+To run the tests, make sure you have PHPUnit 3.6.0 and up installed, and just run the following in the project root,
 
     phpunit
 
@@ -79,3 +81,4 @@ To run the tests, make sure you have PHPUnit 3.5.0 and up installed, and just ru
 [2]: https://code.google.com/apis/customsearch/v1/overview.html
 [3]: http://code.google.com/apis/language/translate/overview.html
 [4]: http://groups.google.com/group/php-standards/web/psr-0-final-proposal
+[5]: http://www.google.com/cse/
